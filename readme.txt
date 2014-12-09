@@ -58,7 +58,8 @@ Yes. In order to use and manage the Share Buttons & Analaytics By Soclever Socia
 = Do I have to add template tags to my theme? =
 
 You should not have to change your templates. The Share Buttons seamlessly integrates into your blog by using predefined hooks.
-= I have a custom template and the plugin is not displayed correctly<br />
+
+= I have a custom template and the plugin is not displayed correctly. =
 
 The plugin uses predefined hooks. If your theme does not support these hooks, you can add the Share Buttons Javascript manually. You can get Javascript on your Soclever Dashbaord after login to your Soclever account. Do not hesitate to contact us if you need further assistance.
 
