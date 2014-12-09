@@ -131,7 +131,7 @@ if(isset($_POST['submit_share']) && $_POST['submit_share']=='Submit' )
     $res_ponse=explode("~~",$res_ponse_str);
     if(mysql_real_escape_string($_POST['api_key'])==$res_ponse[0] && mysql_real_escape_string($_POST['api_secret'])==$res_ponse[1] && $res_ponse[0]!='0')
     {
-        echo "<h2>Thanks for authentication.....</h2>";
+        echo "<h2>Thanks for authentication. Redirecting now to setting page...</h2>";
         /*echo"<br/><h3>Preview</h3><br/>";
         echo htmlspecialchars_decode($res_ponse[2]);*/
         update_option("scss_valid_domain",'1');
@@ -433,7 +433,7 @@ $float_string="float:right;";
         <tfoot>
             <tr valign="top">
                 <td>
-                    <a href="https://www.socleversocial.com/register/" target="_blank" class="scssbutton">Register</a> 
+                    <a href="https://www.socleversocial.com/register/?wpd=<?php echo base64_encode(get_site_url()); ?>" target="_blank" class="scssbutton">Register</a> 
                     <a href="https://www.socleversocial.com/dashboard/" target="_blank" class="scssbutton">Login</a></p>
                 </td>
             </tr>
@@ -500,14 +500,10 @@ $float_string="float:right;";
 <div style="background: none repeat scroll 0 0 #fff;border: 1px solid #eee;margin-bottom: 30px;width:95%;">
 					<h4 style=" border-bottom: 1px solid #eee;margin-bottom: 10px;padding: 10px 0;text-align: center;">Help</h4>
 					<div style="padding: 10px 10px 30px 0px;">
-						<a style="display:block;margin-left:10px;" href="https://www.socleversocial.com/" target="_blank">
-							How to create Soclever Social account?</a>
 						<a style="display:block;margin-left:10px;" href="http://developers.socleversocial.com/wordpress-social-sharing-buttons-instructions/" target="_blank">
 							Plug in Configuration and Troubleshooting</a>
 						<a style="display:block;margin-left:10px;" href="http://developers.socleversocial.com/how-to-get-api-key-and-secret/" target="_blank">
 							How to get Soclever API key and secret?</a>
-						<a style="display:block;margin-left:10px;" href="http://developers.socleversocial.com/wordpress-social-sharing-buttons-instructions/" target="_blank">
-							Share buttons with Authentication?</a>
 						<a style="display:block;margin-left:10px;" href="http://developers.socleversocial.com/" target="_blank">
 							Social Network Apps Set Up</a>
 						<a style="display:block;margin-left:10px;" href="https://www.socleversocial.com/about-us/" target="_blank">

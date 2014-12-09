@@ -3,7 +3,7 @@ Contributors: Socleversocial
 Tags: share bar, like bar, share buttons, facebook, twitter, google+, share, share links
 Requires at least: 3.0.1
 Tested up to: 4.0.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,11 +23,7 @@ Click here to find out more about our sharing icons/buttons. https://www.socleve
 
 Fast and secure
 
-Detail Reporting includes Most Shared Pages Report, Reffered Traffic By Social Networks and Shared By Networks.
-
-We don't have any contracts and don't require a credit card to create an account.
-
-Thanks for downloading our plugin, feel free to leave a review or contact us directly for any feedback.  
+Detail Reporting includes Most Shared Pages Report, Reffered Traffic By Social Networks and Shared By Networks. 
 
 == Installation ==
 
@@ -57,7 +53,7 @@ Yes. It is free to install and use on site but paid users get benefits of Analyt
 
 = Do I need to create an account? =
 
-Yes. In order to use and manage the Share Buttons & Analaytics By Soclever Social you will need to create an account. We don't have any contracts and don't require a credit card to create an account.
+Yes. In order to use and manage the Share Buttons & Analaytics By Soclever Social you will need to create an account with Soclever Social.
 
 = Do I have to add template tags to my theme? =
 
@@ -85,12 +81,28 @@ Our team answers your questions at: https://www.socleversocial.com/contact-us/
 * Developer Support: http://developers.socleversocial.com/
 
 == Screenshots ==
-1. Plugin Settings - Choose Social Network , sort order and choose Share bar display position.
-2. Style Settings - Choose Share Bar Style, Button Size, Padding Gap and Display Style.
-3. Share By Network Report - Get detailed Share By Network Report on your SoClever Social Dashboard.
-4. Most Shared Pages Report - Get detailed Most Shared Pages Report on your SoClever Social Dashboard.
+1. Plugin configuration - Create Soclever account to get Plugin Configuration settings.
+2. Plugin Settings - Choose Social Network , sort order and choose Share bar display position.
+3. Style Settings - Choose Share Bar Style, Button Size, Padding Gap and Display Style.
+4. Counte Settings - Select Counter Display Style.
+5. Share By Network Report - Get detailed Share By Network Report on your SoClever Social Dashboard.
+6. Most Shared Pages Report - Get detailed Most Shared Pages Report on your SoClever Social Dashboard.
+7. Traffic Reffered to site Report - Get detailed reffered traffic report by Social Networks.
 
 
 == PHP Version ==
 
 PHP 5+ is preferred; PHP 4 is supported.
+
+== Changelog ==
+
+= 1.0.1 =
+* This version passes correct wp site url to soclever register page.
+
+= 1.0.0 =
+* Launched Share Button plugin
+
+== Upgrade Notice ==
+
+= 1.0.1 =
+* This version passes correct wp site url to soclever register page.
