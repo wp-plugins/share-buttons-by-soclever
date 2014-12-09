@@ -4,7 +4,7 @@ Plugin Name: Share Buttons & Analytics By Soclever Social
 Plugin URI: https://www.socleversocial.com/
 Description: A simple and easy to use plugin that enables you to add share buttons to all of your posts and/or pages and get detailed report on our Soclever dashbaord.
 
-Version: 1.1
+Version: 1.0.1
 Author: Soclever Team
 Author URI: https://www.socleversocial.com/
 Author Email:info@socleversocial.com
@@ -122,6 +122,21 @@ update_option('scss_icon_size',$_POST['icon_size']);
 update_option('scss_display_style',$_POST['display_style']);
 update_option('scss_button_style',$_POST['button_style']);
 update_option('scss_share_autho',$_POST['scss_share_autho']);
+
+$js_written=file_get_contents('https://www.socleversocial.com/dashboard/write_js.php?site_id='.mysql_real_escape_string(get_option('scss_site_id')).'&save=Save&autho_share='.get_option('scss_share_autho').'');
+      if($js_written=='1')
+      {
+        echo "<h2>Your settings have been saved successfully.....</h2>";
+       ?>
+       
+       <script type="text/javascript">
+         setTimeout(function(){ window.location='admin.php?page=soclever_share'; }, 3000);
+         </script>
+        
+      <?php
+      exit;    
+      }
+
 }
 if(isset($_POST['submit_share']) && $_POST['submit_share']=='Submit' )
 {
