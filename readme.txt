@@ -81,13 +81,12 @@ Our team answers your questions at: https://www.socleversocial.com/contact-us/
 * Developer Support: http://developers.socleversocial.com/
 
 == Screenshots ==
-1. Plugin configuration - Create Soclever account to get Plugin Configuration settings.
-2. Plugin Settings - Choose Social Network , sort order and choose Share bar display position.
-3. Style Settings - Choose Share Bar Style, Button Size, Padding Gap and Display Style.
-4. Counte Settings - Select Counter Display Style.
-5. Share By Network Report - Get detailed Share By Network Report on your SoClever Social Dashboard.
-6. Most Shared Pages Report - Get detailed Most Shared Pages Report on your SoClever Social Dashboard.
-7. Traffic Reffered to site Report - Get detailed reffered traffic report by Social Networks.
+
+1. Plugin Settings - Choose Social Network , sort order and choose Share bar display position.
+2. Style Settings - Choose Share Bar Style, Button Size, Padding Gap and Display Style.
+3. Share By Network Report - Get detailed Share By Network Report on your SoClever Social Dashboard.
+4. Most Shared Pages Report - Get detailed Most Shared Pages Report on your SoClever Social Dashboard.
+5. Traffic Reffered to site Report - Get detailed reffered traffic report by Social Networks.
 
 
 == PHP Version ==
