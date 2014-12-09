@@ -1,9 +1,9 @@
-﻿=== Share Buttons & Analytics By Soclever Social ===
+﻿=== Share Buttons & Analytics By SoClever Social ===
 Contributors: Socleversocial
 Tags: share bar, like bar, share buttons, facebook, twitter, google+, share, share links
 Requires at least: 3.0.1
 Tested up to: 4.0.1
-Stable tag: 4.3
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,12 +12,17 @@ A simple and easy to use plugin that enables you to add share buttons to all of 
 == Description ==
 
 SoClever’s sharing buttons are simple to install and use. 
+
 Industry leading Asynchronous JavaScript for fasted load speed, not affecting site speed what so ever. 
+
 Load your own designs or choose ours. 
+
 Unlike other FREE sharing buttons SoClever DOES NOT sell your customer cookie data which allows competitors to target your customers/visitors. 
-Click here to find out more about our sharing icons/buttons. 
-https://www.socleversocial.com/social-sharing-icons/
+
+Click here to find out more about our sharing icons/buttons. https://www.socleversocial.com/social-sharing-icons/
+
 Fast and secure
+
 Detail Reporting includes Most Shared Pages Report, Reffered Traffic By Social Networks and Shared By Networks. 
 
 == Installation ==
@@ -42,21 +47,31 @@ To upload the plugin through WordPress, instead of FTP:
 
 == Frequently Asked Questions ==
 
-Q. Is Share Buttons & Analytics By Soclever Social Free?
-A. Yes. It is free to install and use on site but paid users get benefits of Analytics Reports and priority support. 
-Q. Do I need to create an account?
-A. Yes. In order to use and manage the Share Buttons & Analaytics By Soclever Social you will need to create an account with Soclever Social. 
-Q. Do I have to add template tags to my theme?
-A. You should not have to change your templates. The Share Buttons seamlessly integrates into your blog by using predefined hooks.
-Q. I have a custom template and the plugin is not displayed correctly
-A. The plugin uses predefined hooks. If your theme does not support these hooks, you can add the Share Buttons Javascript manually. You can get Javascript on your Soclever Dashbaord after login to your Soclever account. Do not hesitate to contact us if you need further assistance.
-Q. Do I have to change my Rewrite Settings?
-A. The plugins does not rely on mod_rewrite and does not need any additional rules. It should work out of the box.
-Q. Where can I report bugs, leave my feedback and get support?
-A. Our team answers your questions at:
-https://www.socleversocial.com/contact-us/
-The plugin documentation is available at:
-developers.socleversocial.com
+= Is Share Buttons & Analytics By Soclever Social Free? =
+
+Yes. It is free to install and use on site but paid users get benefits of Analytics Reports and priority support.
+
+= Do I need to create an account? =
+
+Yes. In order to use and manage the Share Buttons & Analaytics By Soclever Social you will need to create an account with Soclever Social.
+
+= Do I have to add template tags to my theme? =
+
+You should not have to change your templates. The Share Buttons seamlessly integrates into your blog by using predefined hooks.
+
+= I have a custom template and the plugin is not displayed correctly. =
+
+The plugin uses predefined hooks. If your theme does not support these hooks, you can add the Share Buttons Javascript manually. You can get Javascript on your Soclever Dashbaord after login to your Soclever account. Do not hesitate to contact us if you need further assistance.
+
+= Do I have to change my Rewrite Settings? =
+
+The plugins does not rely on mod_rewrite and does not need any additional rules. It should work out of the box.
+
+= Where can I report bugs, leave my feedback and get support? =
+
+Our team answers your questions at: https://www.socleversocial.com/contact-us/
+
+=The plugin documentation is available at:developers.socleversocial.com  =
 
 
 = Important links =
