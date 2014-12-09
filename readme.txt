@@ -23,7 +23,11 @@ Click here to find out more about our sharing icons/buttons. https://www.socleve
 
 Fast and secure
 
-Detail Reporting includes Most Shared Pages Report, Reffered Traffic By Social Networks and Shared By Networks. 
+Detail Reporting includes Most Shared Pages Report, Reffered Traffic By Social Networks and Shared By Networks.
+
+We don't have any contracts and don't require a credit card to create an account.
+
+Thanks for downloading our plugin, feel free to leave a review or contact us directly for any feedback.  
 
 == Installation ==
 
@@ -53,7 +57,7 @@ Yes. It is free to install and use on site but paid users get benefits of Analyt
 
 = Do I need to create an account? =
 
-Yes. In order to use and manage the Share Buttons & Analaytics By Soclever Social you will need to create an account with Soclever Social.
+Yes. In order to use and manage the Share Buttons & Analaytics By Soclever Social you will need to create an account. We don't have any contracts and don't require a credit card to create an account.
 
 = Do I have to add template tags to my theme? =
 
