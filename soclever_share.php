@@ -126,15 +126,10 @@ update_option('scss_share_autho',$_POST['scss_share_autho']);
 $js_written=file_get_contents('https://www.socleversocial.com/dashboard/write_js.php?site_id='.mysql_real_escape_string(get_option('scss_site_id')).'&save=Save&autho_share='.get_option('scss_share_autho').'');
       if($js_written=='1')
       {
-        echo "<h2>Your settings have been saved successfully.....</h2>";
-       ?>
-       
-       <script type="text/javascript">
-         setTimeout(function(){ window.location='admin.php?page=soclever_share'; }, 3000);
-         </script>
+        header("location:admin.php?page=soclever_share");
+        exit;
         
-      <?php
-      exit;    
+           
       }
 
 }
