@@ -123,7 +123,7 @@ update_option('scss_display_style',$_POST['display_style']);
 update_option('scss_button_style',$_POST['button_style']);
 update_option('scss_share_autho',$_POST['scss_share_autho']);
 
-$js_written=file_get_contents('https://www.socleversocial.com/dashboard/write_js.php?site_id='.mysql_real_escape_string(get_option('scss_site_id')).'&save=Save&autho_share='.get_option('scss_share_autho').'');
+$js_written=file_get_contents('https://www.socleversocial.com/dashboard/write_js.php?site_id='.esc_sql(get_option('scss_site_id')).'&save=Save&autho_share='.get_option('scss_share_autho').'');
       if($js_written=='1')
       {
         header("location:admin.php?page=soclever_share");
@@ -137,18 +137,18 @@ if(isset($_POST['submit_share']) && $_POST['submit_share']=='Submit' )
 {
    
     
-    $res_ponse_str=file_get_contents('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.mysql_real_escape_string($_POST['client_id']).'&api_key='.mysql_real_escape_string($_POST['api_key']).'&api_secret='.mysql_real_escape_string($_POST['api_secret']).'');
+    $res_ponse_str=file_get_contents('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.esc_sql($_POST['client_id']).'&api_key='.esc_sql($_POST['api_key']).'&api_secret='.esc_sql($_POST['api_secret']).'');
     $res_ponse=explode("~~",$res_ponse_str);
-    if(mysql_real_escape_string($_POST['api_key'])==$res_ponse[0] && mysql_real_escape_string($_POST['api_secret'])==$res_ponse[1] && $res_ponse[0]!='0')
+    if(esc_sql($_POST['api_key'])==$res_ponse[0] && esc_sql($_POST['api_secret'])==$res_ponse[1] && $res_ponse[0]!='0')
     {
         echo "<h2>Thanks for authentication. Redirecting now to setting page...</h2>";
         /*echo"<br/><h3>Preview</h3><br/>";
         echo htmlspecialchars_decode($res_ponse[2]);*/
         update_option("scss_valid_domain",'1');
-        update_option("scss_site_id",mysql_real_escape_string($_POST['client_id']));
-        update_option("scss_api_key",mysql_real_escape_string($_POST['api_key']));
-        update_option("scss_api_secret",mysql_real_escape_string($_POST['api_secret']));
-        update_option("scss_domain",mysql_real_escape_string($_POST['scss_domain']));
+        update_option("scss_site_id",esc_sql($_POST['client_id']));
+        update_option("scss_api_key",esc_sql($_POST['api_key']));
+        update_option("scss_api_secret",esc_sql($_POST['api_secret']));
+        update_option("scss_domain",esc_sql($_POST['scss_domain']));
         ?>
         <script type="text/javascript">
          setTimeout(function(){ window.location='admin.php?page=soclever_share'; }, 3000);
