@@ -19,9 +19,9 @@ function scsss_display($content)
   	            $sscc_share_content_position=get_option('scss_display_position');
        		
 				$content_new = "";
-                $gplus_app_id=file_get_contents('https://www.socleversocial.com/dashboard/wp_js.php?action=get_gp&site_id='.mysql_real_escape_string(get_option('scss_site_id')).'&api_key='.mysql_real_escape_string(get_option('scss_api_key')).'&api_secret='.mysql_real_escape_string(get_option('scss_api_secret')).'');
+                $gplus_app_id=file_get_contents('https://www.socleversocial.com/dashboard/wp_js.php?action=get_gp&site_id='.esc_sql(get_option('scss_site_id')).'&api_key='.esc_sql(get_option('scss_api_key')).'&api_secret='.esc_sql(get_option('scss_api_secret')).'');
                 
-                //$js_code=file_get_contents('https://www.socleversocial.com/dashboard/wp_js.php?site_id='.mysql_real_escape_string(get_option('scss_site_id')).'&api_key='.mysql_real_escape_string(get_option('scss_api_key')).'&api_secret='.mysql_real_escape_string(get_option('scss_api_secret')).'');
+                //$js_code=file_get_contents('https://www.socleversocial.com/dashboard/wp_js.php?site_id='.esc_sql(get_option('scss_site_id')).'&api_key='.esc_sql(get_option('scss_api_key')).'&api_secret='.esc_sql(get_option('scss_api_secret')).'');
                 
                
     $fileContent="";
