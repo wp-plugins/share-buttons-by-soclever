@@ -1,13 +1,13 @@
 ﻿=== Share Buttons & Analytics By SoClever Social ===
 Contributors: Socleversocial
-Tags: share bar, like bar, share buttons, facebook, twitter, google,linkedin,SoClever
+Tags: share bar, like bar, share buttons, facebook, twitter, google, linkedin, SoClever
 Requires at least: 3.0.1
 Tested up to: 4.0.1
 Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A simple and easy to use plugin that enables you to add share buttons to all of your posts and/or pages and get detailed report on our Soclever dashbaord.
+Configurable Facebook, Twitter, Google, Pinterest &amp; more Social buttons with reports
 
 == Description ==
 
