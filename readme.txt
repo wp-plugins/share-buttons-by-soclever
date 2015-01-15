@@ -23,7 +23,7 @@ Click here to find out more about our sharing icons/buttons. https://www.socleve
 
 Fast and secure
 
-Detail Reporting includes Most Shared Pages Report, Reffered Traffic By Social Networks and Shared By Networks. 
+Detail Reporting includes Most Shared Pages Report, Referred Traffic By Social Networks and Shared By Networks. 
 
 == Installation ==
 
