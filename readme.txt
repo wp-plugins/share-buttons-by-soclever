@@ -1,6 +1,6 @@
 ﻿=== Share Buttons & Analytics By SoClever Social ===
 Contributors: Socleversocial
-Tags: share bar, like bar, share buttons, facebook, twitter, google, linkedin, SoClever
+Tags: share bar, like bar, share buttons, facebook, twitter, google, linkedin, SoClever, Simple share buttons, share icons
 Requires at least: 3.0.1
 Tested up to: 4.0.1
 Stable tag: 1.0.1
@@ -11,17 +11,25 @@ Configurable Facebook, Twitter, Google, Pinterest &amp; more Social buttons with
 
 == Description ==
 
+= Share Buttons & Analytics By SoClever Social =
+
 SoClever’s sharing buttons are simple to install and use. 
 
 Industry leading Asynchronous JavaScript for fasted load speed, not affecting site speed what so ever. 
 
-Load your own designs or choose ours. 
+Customizable designs, size, position and shape. Select ours or load your own logo designs.
 
 Unlike other FREE sharing buttons SoClever DOES NOT sell your customer cookie data which allows competitors to target your customers/visitors. 
 
+= Sharing Reports from API =
+
+We use API provided by the social networks, to count shares of your website pages. It's much more reliable and accurate reporting, and it shows the history of your page's past shares
+
 Click here to find out more about our sharing icons/buttons. https://www.socleversocial.com/social-sharing-icons/
 
-Fast and secure
+See a short video here on our product Social Sharing https://www.youtube.com/watch?v=qhgi8oN0eVc
+
+= Fast and secure =
 
 Detail Reporting includes Most Shared Pages Report, Referred Traffic By Social Networks and Shared By Networks. 
 
