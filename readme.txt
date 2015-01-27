@@ -1,6 +1,6 @@
 ﻿=== Share Buttons & Analytics By SoClever Social ===
 Contributors: Socleversocial
-Tags: share bar, like bar, share buttons, facebook, twitter, google, linkedin, SoClever, Simple share buttons, share icons
+Tags: share bar, like bar, share buttons, facebook, whatsapp, twitter, google, linkedin, SoClever, Simple share buttons, share icons
 Requires at least: 3.0.1
 Tested up to: 4.0.1
 Stable tag: 1.0.1
