@@ -21,9 +21,9 @@ Customizable designs, size, position and shape. Select ours or load your own log
 
 Unlike other FREE sharing buttons SoClever DOES NOT sell your customer cookie data which allows competitors to target your customers/visitors. 
 
-= Sharing Reports from API =
+= Sharing Reports =
 
-We use API provided by the social networks, to count shares of your website pages. It's much more reliable and accurate reporting, and it shows the history of your page's past shares
+Our sharing plugin is FREE to use. We also provide reports and analytics with past sharing history of your website pages FREE for 30 days. You can sign up for analytics report and cancel anytime without effecting sharing buttons. Sharing buttons by SoClever are free to use, and always will be.
 
 Click here to find out more about our sharing icons/buttons. https://www.socleversocial.com/social-sharing-icons/
 
@@ -79,7 +79,7 @@ The plugins does not rely on mod_rewrite and does not need any additional rules.
 
 Our team answers your questions at: https://www.socleversocial.com/contact-us/
 
-=The plugin documentation is available at:developers.socleversocial.com  =
+= The plugin documentation is available at http://developers.socleversocial.com/ =
 
 
 = Important links =
