@@ -114,8 +114,8 @@ PHP 5+ is preferred; PHP 4 is supported.
 
 == Upgrade Notice ==
 
-= 1.0.1 =
-* This version passes correct wp site url to soclever register page.
-
 = 1.0.2 =
 * Ability to add custom share buttons
+
+= 1.0.1 =
+* This version passes correct wp site url to soclever register page.
