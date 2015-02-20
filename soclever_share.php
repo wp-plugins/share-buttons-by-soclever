@@ -28,10 +28,23 @@ function scss_activation(){
         update_option('scss_gap','1');
         update_option('scss_icon_size','30x30');
         update_option('scss_display_style','0');
-        update_option('scss_button_style','1');
+        update_option('scss_button_style','2');
         update_option('scss_share_autho','1');
         update_option('scss_domain',''); 
+        update_option('scss_show_homepage','1');
+        update_option('scss_show_post','0');
+        update_option('scss_show_page','0');
+        update_option('scss_show_category','0');
+        update_option('scss_show_excerpts','0');
+        $share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
+        foreach($share_button_title as $key=>$val)
+        {
+            $val=($val=='Google+')?'google_plus':$val;
+            update_option('scss_custom_'.strtolower($val).'','');    
+        }
         
+        
+                    
 	}
 
 
@@ -53,7 +66,40 @@ function scss_uninstall()
         delete_option('scss_button_style');
         delete_option('scss_domain');
         delete_option('scss_share_autho');
+        delete_option('scss_show_homepage');
+        delete_option('scss_show_post');
+        delete_option('scss_show_page');
+        delete_option('scss_show_category');
+        delete_option('scss_show_excerpts');
+         $share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
+        foreach($share_button_title as $key=>$val)
+        {
+            $val=($val=='Google+')?'google_plus':$val;
+            delete_option('scss_custom_'.strtolower($val).'');    
+        }
         
+	}
+    
+    function scss_admin_scripts() {
+	
+        wp_enqueue_script('jquery-ui-sortable');
+		wp_enqueue_script('jquery-ui');
+        
+	}
+    
+    function scss_admin_styles() {
+	
+		// admin styles
+		wp_enqueue_style('thickbox');
+		wp_enqueue_style('wp-color-picker');
+		
+	}
+    
+    if (isset($_GET['page']) && $_GET['page'] == 'soclever_share') {
+	
+		// add the registered scripts
+		add_action('admin_print_styles', 'scss_admin_styles');
+		add_action('admin_print_scripts', 'scss_admin_scripts');
 	}
 
 add_action( 'admin_menu', 'cs_share_menu' );
@@ -93,37 +139,124 @@ if($post_thumbnail_url=='')
 		echo $scss_image;
 	}
 
- 
-if((isset($_POST['save_share_1']) && $_POST['save_share_1']=='Save' ) || (isset($_POST['save_share_2']) && $_POST['save_share_2']=='Save' ) || (isset($_POST['save_share_3']) && $_POST['save_share_3']=='Save' ) )
-{
-    
-update_option('scss_display_position',stripslashes($_POST['scss_display_position']));
-$social_buttons=""; $orders="";
-$sorting_arry=$_POST['short_order'];
-foreach($_POST['share_button'] as $key=>$val)
-{
-    $new_sorting_arr[$key]=$_POST['short_order'][$key];
+
+function getAvailablescss($strSelectedscss) {
+
+	
+	$htmlAvailableListscss = '';
+	$arrSelectedscss = '';
+	
+	
+	$arrSelectedscss = explode(',', $strSelectedscss);
+	
+	
+	$arrAllAvailablescss = array('Facebook','Google+','LinkedIN','Twitter','Pinterest','WhatsApp','StumbleUpon','Reddit','Tumblr');
+	
+	// explode saved include list and add to a new array
+	$arrAvailablescss = array_diff($arrAllAvailablescss, $arrSelectedscss);
+	
+	// check if array is not empty
+	if ($arrSelectedscss != '') {
+	
+		// for each included button
+		foreach ($arrAvailablescss as $strAvailablescss) {
+		
+			// add a list item for each available option
+			$htmlAvailableListscss .= '<li id="' . $strAvailablescss . '">' . $strAvailablescss . '</li>';
+		}
+	}
+	
+	// return html list options
+	return $htmlAvailableListscss;
 }
-asort($new_sorting_arr);
-foreach($new_sorting_arr as $key=>$val)
+
+function getSelectedscss($strSelectedscss) {
+    
+    
+
+	// variables
+	$htmlSelectedListscss = '';
+	$arrSelectedscss = '';
+
+	
+	if ($strSelectedscss != '') {
+	
+		
+		$arrSelectedscss = explode(',', $strSelectedscss);
+		
+		// check if array is not empty
+		if ($arrSelectedscss != '') {
+		
+			
+			foreach ($arrSelectedscss as $strSelectedscss) {
+			
+                if($strSelectedscss!='')    
+				{
+				$htmlSelectedListscss .= '<li id="' . $strSelectedscss . '">' . $strSelectedscss. '</li>';
+                }
+			}
+		}
+	}
+	
+	// return html list options
+	return $htmlSelectedListscss;
+}
+
+ 
+if((isset($_POST['save_share_1']) && sanitize_text_field($_POST['save_share_1'])=='Save' ) || (isset($_POST['save_share_2']) && sanitize_text_field($_POST['save_share_2'])=='Save' ) || (isset($_POST['save_share_3']) && sanitize_text_field($_POST['save_share_3'])=='Save' ) )
 {
-    if(isset($_POST['share_button'][$key]))
+ 
+ 
+    
+    
+update_option('scss_display_position',stripslashes(sanitize_text_field($_POST['scss_display_position'])));
+$social_buttons=""; $orders="";
+
+$share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
+
+foreach($share_button_title as $key=>$val)
+{
+    $val=($val=='Google+')?'google_plus':$val;
+    if($_POST['scss_custom_'.strtolower($val).'']!='')
     {
-    $social_buttons .=",".$_POST['share_button'][$key];
-    $orders .=",".$new_sorting_arr[$key];
+        
+        update_option('scss_custom_'.strtolower($val).'',$_POST['scss_custom_'.strtolower($val).'']);
+    }
+}
+$selected_buttons_new=array();
+if(sanitize_text_field($_POST['scss_selected_buttons'])!='')
+{
+    $selected_buttons_new=explode(",",sanitize_text_field($_POST['scss_selected_buttons']));
+}
+
+//print_r($selected_buttons_new);
+
+if(count($selected_buttons_new) > 0)
+{
+    foreach($selected_buttons_new as $key=>$val)
+    {
+        
+        $social_buttons .=",".sanitize_text_field(array_search($val,$share_button_title));
     }
 }
 
-update_option('scss_button_orders',$orders);
 update_option('scss_selected_buttons',$social_buttons);
-update_option('scss_counter_type',$_POST['counter_type']);
-update_option('scss_gap',$_POST['gap']);
-update_option('scss_icon_size',$_POST['icon_size']);
-update_option('scss_display_style',$_POST['display_style']);
-update_option('scss_button_style',$_POST['button_style']);
-update_option('scss_share_autho',$_POST['scss_share_autho']);
+update_option('scss_counter_type',sanitize_text_field($_POST['counter_type']));
+update_option('scss_gap',sanitize_text_field($_POST['gap']));
+update_option('scss_icon_size',sanitize_text_field($_POST['icon_size']));
+update_option('scss_display_style',sanitize_text_field($_POST['display_style']));
+update_option('scss_button_style',sanitize_text_field($_POST['button_style']));
 
-$js_written=file_get_contents('https://www.socleversocial.com/dashboard/write_js.php?site_id='.esc_sql(get_option('scss_site_id')).'&save=Save&autho_share='.get_option('scss_share_autho').'');
+update_option('scss_show_homepage',sanitize_text_field($_POST['scss_show_homepage']));
+        update_option('scss_show_post',sanitize_text_field($_POST['scss_show_post']));
+        update_option('scss_show_page',sanitize_text_field($_POST['scss_show_page']));
+        update_option('scss_show_category',sanitize_text_field($_POST['scss_show_category']));
+        update_option('scss_show_excerpts',sanitize_text_field($_POST['scss_show_excerpts']));
+        
+        
+update_option('scss_share_autho','1');
+
+$js_written=file_get_contents('https://www.socleversocial.com/dashboard/wp_write_noauthosharejs.php?site_id='.sanitize_text_field(get_option('scss_site_id')).'&save=Save&autho_share=1');
       if($js_written=='1')
       {
         header("location:admin.php?page=soclever_share");
@@ -133,22 +266,24 @@ $js_written=file_get_contents('https://www.socleversocial.com/dashboard/write_js
       }
 
 }
-if(isset($_POST['submit_share']) && $_POST['submit_share']=='Submit' )
+
+
+if(isset($_POST['submit_share']) && sanitize_text_field($_POST['submit_share'])=='Submit' )
 {
    
     
-    $res_ponse_str=file_get_contents('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.esc_sql($_POST['client_id']).'&api_key='.esc_sql($_POST['api_key']).'&api_secret='.esc_sql($_POST['api_secret']).'');
+    $res_ponse_str=file_get_contents('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.sanitize_text_field($_POST['client_id']).'&api_key='.sanitize_text_field($_POST['api_key']).'&api_secret='.sanitize_text_field($_POST['api_secret']).'');
     $res_ponse=explode("~~",$res_ponse_str);
-    if(esc_sql($_POST['api_key'])==$res_ponse[0] && esc_sql($_POST['api_secret'])==$res_ponse[1] && $res_ponse[0]!='0')
+    if(sanitize_text_field($_POST['api_key'])==$res_ponse[0] && sanitize_text_field($_POST['api_secret'])==$res_ponse[1] && $res_ponse[0]!='0')
     {
         echo "<h2>Thanks for authentication. Redirecting now to setting page...</h2>";
         /*echo"<br/><h3>Preview</h3><br/>";
         echo htmlspecialchars_decode($res_ponse[2]);*/
         update_option("scss_valid_domain",'1');
-        update_option("scss_site_id",esc_sql($_POST['client_id']));
-        update_option("scss_api_key",esc_sql($_POST['api_key']));
-        update_option("scss_api_secret",esc_sql($_POST['api_secret']));
-        update_option("scss_domain",esc_sql($_POST['scss_domain']));
+        update_option("scss_site_id",sanitize_text_field($_POST['client_id']));
+        update_option("scss_api_key",sanitize_text_field($_POST['api_key']));
+        update_option("scss_api_secret",sanitize_text_field($_POST['api_secret']));
+        update_option("scss_domain",sanitize_text_field($_POST['scss_domain']));
         ?>
         <script type="text/javascript">
          setTimeout(function(){ window.location='admin.php?page=soclever_share'; }, 3000);
@@ -173,7 +308,7 @@ if(isset($_POST['submit_share']) && $_POST['submit_share']=='Submit' )
 
 
 function scsshare_html_page() {
- wp_register_style( 'scss-style', plugins_url('scss_css/scss-style.css?ver='.time().'', __FILE__) );
+ wp_register_style( 'scss-style', plugins_url('scss_css/scss-style.css?t='.time().'', __FILE__) );
  wp_enqueue_style( 'scss-style' );
    
 ?>
@@ -196,8 +331,9 @@ function scsshare_html_page() {
 if(get_option('scss_valid_domain')=='1')
 {
     $selected_buttons=explode(",",get_option('scss_selected_buttons'));
+    $selectedButtons='';
     
-$all_social_buttons=array("2","4","7","13","17");    
+$all_social_buttons=array("2","4","7","13","17","18","19","20");    
 if(is_array($selected_buttons) && get_option('scss_selected_buttons')!='')
 {
   $share_button=array_unique(array_merge($selected_buttons,$all_social_buttons), SORT_REGULAR);
@@ -208,11 +344,15 @@ if(is_array($selected_buttons) && get_option('scss_selected_buttons')!='')
 }
 else
 {
-    $share_button=array("2","4","7","13","17");
+    $share_button=array("2","4","7","13","17","18","19","20");
 }
-$share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest");
+$share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
+foreach($selected_buttons as $selected)
+{
+    $selectedButtons .=$share_button_title[$selected].",";
+}
 $counter_type=get_option('scss_counter_type');
-$short_order=array("1","2","3","4","5");
+$short_order=array("1","2","3","4","5","6","7","8");
 $gap=get_option('scss_gap');
 $icon_size=get_option('scss_icon_size');
 $display_style=get_option('scss_display_style');
@@ -227,55 +367,124 @@ $float_string="float:right;";
  wp_enqueue_script( 'scss_tabb' );
     
 ?>
+<?php
+// jQuery
+wp_enqueue_script('jquery');
+wp_enqueue_media();
+?>
+
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+
+	//------- INCLUDE LIST ----------//
+
+	// add drag and sort functions to include table
+	jQuery(function() {
+		jQuery( "#scsssort1, #scsssort2" ).sortable({
+			connectWith: ".connectedSortable"
+		}).disableSelection();
+	  });
+	 
+	// extract and add include list to hidden field
+	jQuery('#scss_selected_buttons').val(jQuery('#scsssort2 li').map(function() {
+	// For each <li> in the list, return its inner text and let .map()
+	//  build an array of those values.
+	return jQuery(this).attr('id');
+	}).get());
+	  
+	// after a change, extract and add include list to hidden field
+	jQuery('.scss-include-list').mouseout(function() {
+		jQuery('#scss_selected_buttons').val(jQuery('#scsssort2 li').map(function() {
+		// For each <li> in the list, return its inner text and let .map()
+		//  build an array of those values.
+		return jQuery(this).attr('id');
+		}).get());
+	});
+	  
+    
+    jQuery('.customUpload').click(function(e) {
+        var strInputID = jQuery(this).data('scss-input');
+        e.preventDefault();
+        var image = wp.media({ 
+            title: 'Upload Image',            
+            multiple: false
+        }).open()
+        .on('select', function(e){
+            
+            var uploaded_image = image.state().get('selection').first();
+            var image_url = uploaded_image.toJSON().url;            
+            jQuery('#' + strInputID).val(image_url);
+        });
+    });
+
+});
+
+function show_custom_images()
+{
+    if(document.authosharefrm.button_style.value=='custom')
+    {
+        document.getElementById("scss-custom-images").style.display="inline-block";
+    }
+    else
+    {
+        document.getElementById("scss-custom-images").style.display="none";
+    }
+}
+</script>
+
+    
 <form class="login-form mt-lg" action="" method="post" name="authosharefrm" enctype="multipart/form-data">
 <div class="tabber" style="width: 95% !important;">
      <div class="tabbertab">
 	  <h2>Basic</h2>
+      
+       
       <table class="table" style="margin:20px;font-size:1em;">
-	  <tr><th align="left">Select buttons & Display Sort Order</th></tr>
+	  <tr><th align="left">Select buttons</th></tr>
                                 <tr>
                                     <td style="border: medium none;">
-                                        <div style="text-align: right; border-bottom: 1px solid; margin-bottom: 5px;width: 180px;">
-                                            <a href="javascript:void(0);" onclick="call_check_uncheck_all('all')">All</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="call_check_uncheck_all('none')">None</a>
-                                        </div>
-                                        <div id="social_list_div" style="width: 100%;">
-                                            <?php $i=0;
-                                            
-                                            if(count($share_button)>0)
-                                            {
-                                                foreach($share_button as $key => $val)
-                                                {
-                                                    if($share_button_title[$val]!='')
-                                                    {
-                                                    $i++;
-                                                     $odr=$i;
-                                                     $left_margin="20%";
-                                                     switch($val)
-                                                     {
-                                                        case '2':
-                                                        $left_margin="18%";
-                                                        break;
-                                                        case '4':
-                                                        $left_margin="21%";
-                                                        break;
-                                                        case '13':
-                                                        $left_margin="24%";
-                                                        break;
-                                                        
-                                                     }
-                                                    ?>
-                                                    <div style="margin-bottom: 5px;">
-                                                        <input type="checkbox" name="share_button[<?php echo $i;?>]" id="share_button_<?php echo $i;?>" value="<?php echo $val;?>"  <?php if(is_array($selected_buttons) && in_array($val,$selected_buttons)) { ?> checked="checked"  <?php } ?> />&nbsp;&nbsp;<?php echo $share_button_title[$val];?>
-                                                        <input type="text" style="width: 20px;margin-left:<?php echo $left_margin; ?>;"  name="short_order[<?php echo $odr;?>]" id="short_order_<?php echo $odr;?>" value="<?php echo $odr;?>" /> 
-                                                    </div>
-                                                    <?php 
-                                                    }
-                                                }
-                                            }
-                                             ?>
-                                        </div>
+                                        
+                                        <?php 
+                                        
+                                        
+                        				$htmlShareButtonsForm .= '<table class="form-table">';
+                        					$htmlShareButtonsForm .= '<tr valign="top">';                        						
+                        						$htmlShareButtonsForm .= '<td class="scss-include-list available">';
+                        							$htmlShareButtonsForm .= '<span class="include-heading">Available</span>';
+                        							$htmlShareButtonsForm .= '<center><ul id="scsssort1" class="connectedSortable">';
+                        							 $htmlShareButtonsForm .= getAvailablescss($selectedButtons);
+                        							$htmlShareButtonsForm .= '</ul></center>';
+                        						$htmlShareButtonsForm .= '</td>';
+                        						$htmlShareButtonsForm .= '<td class="scss-include-list chosen">';
+                        							$htmlShareButtonsForm .= '<span class="include-heading">Selected</span>';
+                        							$htmlShareButtonsForm .= '<center><ul id="scsssort2" class="connectedSortable">';
+                        							$htmlShareButtonsForm .= getSelectedscss($selectedButtons);
+                        							$htmlShareButtonsForm .= '</ul></center>';
+                        						$htmlShareButtonsForm .= '</td>';
+                        					$htmlShareButtonsForm .= '</tr>';
+                        				    $htmlShareButtonsForm .= '</table>';
+                                            $htmlShareButtonsForm .= '</div>';
+                                            $htmlShareButtonsForm .= '<input type="hidden" name="scss_selected_buttons" id="scss_selected_buttons" value="'.$selectedButtons.'" />';
+                                            echo $htmlShareButtonsForm;
+                                         ?>
+                                       
+                                        
                                     </td>
                                 </tr>
+                                
+                                <tr>
+                    <th align="left">Show on</th>
+                    </tr>
+                    <tr>                    
+                    <td>
+                    <input type="checkbox" name="scss_show_homepage" value="1" <?php echo (get_option('scss_show_homepage')=='1')?'checked':''; ?> /><b>Home Page</b><br/>
+                    <input type="checkbox" name="scss_show_post" value="1" <?php echo (get_option('scss_show_post')=='1')?'checked':''; ?> /><b>Posts</b><br/>
+                    <input type="checkbox" name="scss_show_page" value="1" <?php echo (get_option('scss_show_page')=='1')?'checked':''; ?> /><b>Pages</b><br/>
+                    <input type="checkbox" name="scss_show_category" value="1" <?php echo (get_option('scss_show_category')=='1')?'checked':''; ?>  /><b>Categories/Archives</b><br/>
+                    <input type="checkbox" name="scss_show_excerpts" value="1" <?php echo (get_option('scss_show_excerpts')=='1')?'checked':''; ?> /><b>Excerpts</b><br/>
+                    </td>
+                    </tr>      
                                 
                                 <tr>
                     <th align="left">Display Position</th>
@@ -288,15 +497,7 @@ $float_string="float:right;";
                     <option value="both" <?php if(get_option('scss_display_position')=='both') { echo "selected='selected'"; } ?>>Both</option>
                     </select>
                     </td>
-                    </tr>
-                     <tr><th align="left">Share with authentication?</th></tr>
-                                <tr>
-                                    <td style="border: medium none;">
-                                    <div><input type="radio" name="scss_share_autho" id="scss_share_autho_2" value="1"<?php if(get_option('scss_share_autho')=="1") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;No</div>
-                                        <div><input type="radio" name="scss_share_autho" id="scss_share_autho_1" value="0"<?php if(get_option('scss_share_autho')=="0") { echo ' checked="checked"'; };?> />&nbsp;&nbsp;Yes</div>
-                                        
-                    </tr>
-                               
+                    </tr>      
                     <tr>
                                     <td>
                                         <div class="clearfix">
@@ -319,11 +520,44 @@ $float_string="float:right;";
       <th align="left">Select Your Style</th></tr>
       <tr>
       <td style="border: medium none;">
-                                        <div style="display: none;"><input type="radio" name="button_style" id="button_style_1" value="0"<?php if($button_style=="0") { echo ' checked="checked"'; };?> />&nbsp;&nbsp;<img src="<?php echo SITE_URL;?>img/social_icon/Share_ButtonStyle.gif" alt="Social Share Button Style" /></div>
-                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_2" value="1"<?php if($button_style=="1") { echo ' checked="checked"'; };?>  /><div style="margin-top: -26px;margin-left:20px;">&nbsp;&nbsp;<img src="https://www.socleversocial.com/dashboard/images/preview/style201.png" style="width:140px;" alt="Square Icons" title="Square Icons" /></div></div>
-                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_3" value="2"<?php if($button_style=="2") { echo ' checked="checked"'; };?>  /><div style="margin-top: -24px;margin-left:20px;">&nbsp;&nbsp;<img src="https://www.socleversocial.com/dashboard/images/preview/style202.png" style="width:140px;" alt="Rounded Icons" title="Rounded Icons" /></div></div>
-                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_4" value="3"<?php if($button_style=="3") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;<img src="https://www.socleversocial.com/dashboard/images/preview/style203.png" style="width:140px;" alt="Square Grey Icons" title="Square Grey Icons" /></div></div>
-                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_5" value="4"<?php if($button_style=="4") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;<img src="https://www.socleversocial.com/dashboard/images/preview/style204.png" style="width:140px;" alt="Rounded Grey Icons" title="Rounded Grey Icons"  /></div></div>
+                                        <div style="display: none;"><input type="radio" name="button_style" id="button_style_1" value="0"<?php if($button_style=="0") { echo ' checked="checked"'; };?> />&nbsp;&nbsp;<img src="<?php echo SITE_URL;?>img/social_icon/Share_ButtonStyle.gif" alt="Social Share Button Style" /></div>                                        
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_3" onclick="show_custom_images()" value="2"<?php if($button_style=="2") { echo ' checked="checked"'; };?>  /><div style="margin-top: -24px;margin-left:20px;">&nbsp;&nbsp;Rounded Color</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_4" onclick="show_custom_images()" value="3"<?php if($button_style=="3") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Transparent Grey</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_5" onclick="show_custom_images()" value="4"<?php if($button_style=="4") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Rounded Black</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_6" onclick="show_custom_images()" value="5"<?php if($button_style=="5") { echo ' checked="checked"'; };?>  /><div style="margin-top: -24px;margin-left:20px;">&nbsp;&nbsp;Flower</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_7" onclick="show_custom_images()" value="6"<?php if($button_style=="6") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Glossy</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_8" onclick="show_custom_images()" value="7"<?php if($button_style=="7") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Leaf</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_9" onclick="show_custom_images()" value="8"<?php if($button_style=="8") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Polygon</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_10" onclick="show_custom_images()" value="9"<?php if($button_style=="9") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Rectangular</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_11" onclick="show_custom_images()" value="10"<?php if($button_style=="10") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Rounded Corners</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_12" onclick="show_custom_images()" value="11"<?php if($button_style=="11") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Waterdrop</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="scss_image_set" onclick="show_custom_images()" value="custom"<?php if($button_style=="custom") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;<b>Custom Images</b></div></div>
+                                        
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <?php
+      
+      $htmlShareButtonsForm="";
+      $htmlShareButtonsForm .= '<div id="scss-custom-images" ' . ($button_style=='custom'?'style="display: inline-block;"':'style="display:none;"').'>';				
+				$htmlShareButtonsForm .= '<table class="form-table">';
+                foreach($share_button_title as $key=>$val)
+                {
+                    $val=($val=='Google+')?'google_plus':$val;
+                    $htmlShareButtonsForm .= '<tr valign="top">';
+						$htmlShareButtonsForm .= '<th scope="row" style="width: 120px;"><label>'.$val.':</label></th>';
+						$htmlShareButtonsForm .= '<td>';
+						$htmlShareButtonsForm .= '<input id="scss_custom_'.strtolower($val).'" type="text" size="50" name="scss_custom_'.strtolower($val).'" value="'.get_option('scss_custom_'.strtolower($val).'').'" />';
+						$htmlShareButtonsForm .= '<input id="upload_'.strtolower($val).'_button" data-scss-input="scss_custom_'.strtolower($val).'" class="button customUpload" type="button" value="Upload Image" />';
+						$htmlShareButtonsForm .= '</td>';
+					$htmlShareButtonsForm .= '</tr>';
+                }
+					
+				$htmlShareButtonsForm .= '</table>';
+				$htmlShareButtonsForm .= '</div>';
+                echo $htmlShareButtonsForm;
+                ?>
       </td>
       </tr>
       <tr><th align="left">Button Size</th></tr>
@@ -437,8 +671,7 @@ $float_string="float:right;";
                 </th>
             </tr>
         </thead>
-        <tbody>
-           
+        <tbody>           
         </tbody>
         <tfoot>
             <tr valign="top">
