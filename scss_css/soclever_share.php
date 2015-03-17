@@ -4,7 +4,7 @@ Plugin Name: Share Buttons & Analytics By Soclever Social
 Plugin URI: https://www.socleversocial.com/
 Description: A simple and easy to use plugin that enables you to add share buttons to all of your posts and/or pages and get detailed report on our Soclever dashbaord.
 
-Version: 1.1.0
+Version: 1.0.1
 Author: Soclever Team
 Author URI: https://www.socleversocial.com/
 Author Email:info@socleversocial.com
@@ -36,7 +36,6 @@ function scss_activation(){
         update_option('scss_show_page','0');
         update_option('scss_show_category','0');
         update_option('scss_show_excerpts','0');
-        update_option('scss_module_loaded','0');
         $share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
         foreach($share_button_title as $key=>$val)
         {
@@ -72,7 +71,6 @@ function scss_uninstall()
         delete_option('scss_show_page');
         delete_option('scss_show_category');
         delete_option('scss_show_excerpts');
-        delete_option('scss_module_loaded');
          $share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
         foreach($share_button_title as $key=>$val)
         {
@@ -81,50 +79,6 @@ function scss_uninstall()
         }
         
 	}
-    
-  
-  function soclever_share_setup($links, $file)
-{
-	static $soclever_social_share_plugin = null;
-
-	if (is_null ($soclever_social_share_plugin))
-	{
-		$soclever_social_share_plugin = plugin_basename (__FILE__);
-	}
-
-	if ($file == $soclever_social_share_plugin)
-	{
-		$settings_link = '<a href="admin.php?page=soclever_share">' . __ ('Setup', 'soclever_share') . '</a>';
-		array_unshift ($links, $settings_link);
-	}
-	return $links;
-}
-add_filter ('plugin_action_links', 'soclever_share_setup', 10, 2);
-
-
-  function get_csscurl($url)
-{
-    
-if(get_option('scss_module_loaded')=='1')
-{
- return file_get_contents($url);    
-}
-else
-{        
-$ch = curl_init(); 
-curl_setopt($ch, CURLOPT_URL, $url); 
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);  
-curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);    
-curl_setopt($ch, CURLOPT_SSLVERSION,3);
-$result_response = curl_exec($ch);
-$actual_return=$result_response;
-curl_close($ch);
-return $actual_return;
-}
-}
-
-  
     
     function scss_admin_scripts() {
 	
@@ -302,7 +256,7 @@ update_option('scss_show_homepage',sanitize_text_field($_POST['scss_show_homepag
         
 update_option('scss_share_autho','1');
 
-$js_written=get_csscurl('https://www.socleversocial.com/dashboard/wp_write_noauthosharejs.php?site_id='.sanitize_text_field(get_option('scss_site_id')).'&save=Save&autho_share=1');
+$js_written=file_get_contents('https://www.socleversocial.com/dashboard/wp_write_noauthosharejs.php?site_id='.sanitize_text_field(get_option('scss_site_id')).'&save=Save&autho_share=1');
       if($js_written=='1')
       {
         header("location:admin.php?page=soclever_share");
@@ -319,30 +273,6 @@ if(isset($_POST['submit_share']) && sanitize_text_field($_POST['submit_share'])=
    
     
     $res_ponse_str=file_get_contents('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.sanitize_text_field($_POST['client_id']).'&api_key='.sanitize_text_field($_POST['api_key']).'&api_secret='.sanitize_text_field($_POST['api_secret']).'');
-    
-    
-    if(!$res_ponse_str)
-    {
-        $res_ponse_str=get_csscurl('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.sanitize_text_field($_POST['client_id']).'&api_key='.sanitize_text_field($_POST['api_key']).'&api_secret='.sanitize_text_field($_POST['api_secret']).'');
-    }
-    else
-    {
-        update_option('scss_module_loaded','1');
-    }
-   
-    if(!$res_ponse_str)
-    {
-      echo "<h3>Please check your php.ini's setting for FSOCKOPEN or CURL</h2>";
-      wp_die();  
-    }
-    else
-    {
-        if(get_option('scss_module_loaded')=='0')
-        {
-        update_option('scss_module_loaded','2');
-        }
-    }
-    
     $res_ponse=explode("~~",$res_ponse_str);
     if(sanitize_text_field($_POST['api_key'])==$res_ponse[0] && sanitize_text_field($_POST['api_secret'])==$res_ponse[1] && $res_ponse[0]!='0')
     {
@@ -386,22 +316,22 @@ function scsshare_html_page() {
 <header>
 	<div class="main">
     	<div class="logo">
-        	<a href="https://www.socleversocial.com/" target="_blank"><img src="<?php echo plugins_url('scss_css/logo.png', __FILE__); ?>" alt="SoClever Social" /></a>
+        	<a href="https://www.socleversocial.com/"><img src="https://www.socleversocial.com/dashboard/img/logo.png" alt="SoClever Social" /></a>
         </div>
     </div>
 </header>
 <section>
 	<div class="main">
- <div class="sect-left" style="margin-top: 15px;">
+ <div class="sect-left">
  	<nav>
     <?php if(get_option('scss_valid_domain')=='0') { ?>
             	<ul>
-                	<li class="active" style="width: 100%;background-repeat: repeat;" ><a>Your SoClever API Setting</a></li>                    
+                	<li class="active" ><a  href="#">Your SoClever API Setting</a></li>                    
                 </ul>
      <?php } else { ?>
      	<ul>
                 	
-                    <li class="active" style="width: 100%;background-repeat: repeat;"><a>SoClever Social Sharing Setting</a></li>
+                    <li class="active"><a href="#" >SoClever Social Sharing Setting</a></li>
                 </ul>
      <?php } ?>
                 
@@ -512,41 +442,15 @@ function show_custom_images()
         document.getElementById("scss-custom-images").style.display="none";
     }
 }
-function show_sub_activate(tab_id)
-{
-    for(var i=6;i<=8;i++)
-    {
-        
-        if(i==tab_id)
-        {
-            document.getElementById("tabli"+tab_id).className="active";
-        
-        document.getElementById("tab"+tab_id).style.display="inline-block";
-        
-        }
-        else
-        {
-            document.getElementById("tabli"+i).className="";
-            document.getElementById("tab"+i).style.display="none";
-        }
-    }
-}
 </script>
 
-<div style="clear: both;">&nbsp;</div>  
-<nav>
-<ul>
-                	<li id="tabli6" class="active" style="width:20%;"><a href="javascript:void(0);" onclick="show_sub_activate('6');">Basic</a></li>
-                    <li id="tabli7"  style="width:20%;"><a href="javascript:void(0);" onclick="show_sub_activate('7');">Style</a></li>
-                    <li  id="tabli8" style="width:20%;"><a href="javascript:void(0);" onclick="show_sub_activate('8');">Counter</a></li>                    
-                </ul>
-</nav>                
-  
+<div style="clear: both;">&nbsp;</div>    
 <form class="login-form mt-lg" action="" method="post" name="authosharefrm" enctype="multipart/form-data">
 
-<div class="box1" style="margin-top:-10px;">
-     <div id="tab6">
-      
+<div class="tabber">
+     <div class="tabbertab">
+     
+	  <h2>Basic</h2>
       
        
       <table class="table" style="margin:20px;font-size:1em;">
@@ -626,27 +530,30 @@ function show_sub_activate(tab_id)
      </div>
 
 
-     <div id="tab7" style="display: none;">
-	  
-      <?php
-      $button_style_arr=array(" Rounded Color","Transparent Grey","Rounded Black","Flower","Glossy","Leaf","Polygon","Rectangular","Rounded Corners","Waterdrop");
-       ?>
-       <div class="main-bx1" style="float: none;">
-               	<p>Select Your Style</p>
-                <?php foreach($button_style_arr as $key=>$val) { ?>
-                <div class="lbls radio-danger">
-               		 <input type="radio" name="button_style"  id="button_style_<?php echo intval($key+3); ?>" onclick="show_custom_images()" value="<?php echo intval($key+2); ?>"<?php if($button_style==intval($key+2)) { echo ' checked="checked"'; };?> />
-            	<label for="button_style_<?php echo intval($key+3); ?>" class="css-label radGroup2"><?php echo $val; ?></label>
-                </div>
-                <?php } ?>
-                <div class="lbls radio-danger">
-               		 <input type="radio" name="button_style"  id="scss_image_set" onclick="show_custom_images()" value="custom"<?php if($button_style=="custom") { echo ' checked="checked"'; };?> />
-            	<label for="scss_image_set" class="css-label radGroup2">Custom Images</label>
-                </div>
-                 </div>
-              
-              
-	  <div class="main-bx1" style="float: none;">
+     <div class="tabbertab">
+	  <h2>Style</h2>
+	  <table class="table" style="margin:20px;font-size:1em;">
+      <tr>
+      <th align="left">Select Your Style</th></tr>
+      <tr>
+      <td style="border: medium none;">
+                                        <div style="display: none;"><input type="radio" name="button_style" id="button_style_1" value="0"<?php if($button_style=="0") { echo ' checked="checked"'; };?> />&nbsp;&nbsp;<img src="<?php echo SITE_URL;?>img/social_icon/Share_ButtonStyle.gif" alt="Social Share Button Style" /></div>                                        
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_3" onclick="show_custom_images()" value="2"<?php if($button_style=="2") { echo ' checked="checked"'; };?>  /><div style="margin-top: -24px;margin-left:20px;">&nbsp;&nbsp;Rounded Color</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_4" onclick="show_custom_images()" value="3"<?php if($button_style=="3") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Transparent Grey</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_5" onclick="show_custom_images()" value="4"<?php if($button_style=="4") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Rounded Black</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_6" onclick="show_custom_images()" value="5"<?php if($button_style=="5") { echo ' checked="checked"'; };?>  /><div style="margin-top: -24px;margin-left:20px;">&nbsp;&nbsp;Flower</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_7" onclick="show_custom_images()" value="6"<?php if($button_style=="6") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Glossy</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_8" onclick="show_custom_images()" value="7"<?php if($button_style=="7") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Leaf</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_9" onclick="show_custom_images()" value="8"<?php if($button_style=="8") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Polygon</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_10" onclick="show_custom_images()" value="9"<?php if($button_style=="9") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Rectangular</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_11" onclick="show_custom_images()" value="10"<?php if($button_style=="10") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Rounded Corners</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="button_style_12" onclick="show_custom_images()" value="11"<?php if($button_style=="11") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;Waterdrop</div></div>
+                                        <div><input type="radio" name="button_style" style="margin-top: 10px;" id="scss_image_set" onclick="show_custom_images()" value="custom"<?php if($button_style=="custom") { echo ' checked="checked"'; };?>  /><div style="margin-top: -20px;margin-left:20px;">&nbsp;&nbsp;<b>Custom Images</b></div></div>
+                                        
+      </td>
+      </tr>
+      <tr>
+      <td>
       <?php
       
       $htmlShareButtonsForm="";
@@ -668,99 +575,75 @@ function show_sub_activate(tab_id)
 				$htmlShareButtonsForm .= '</div>';
                 echo $htmlShareButtonsForm;
                 ?>
-      </div>
-      <div class="main-bx1" style="float: none;">
-               	<p>Button Size</p>
-       <?php $button_size_arr=array("30x30","32x32","40x40","50x50","60x60","70x70","85x85","100x100");
-       
-       foreach($button_size_arr as $key=>$val)
-       {
-       
-        ?>   
+      </td>
+      </tr>
+      <tr><th align="left">Button Size</th></tr>
+                                <tr>
+                                    <td style="border: medium none;">
+                                        <div><input type="radio" name="icon_size" id="icon_size_1" value="30x30"<?php if($icon_size=="30x30") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;30x30</div>
+                                        <div><input type="radio" name="icon_size" id="icon_size_2" value="32x32"<?php if($icon_size=="32x32") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;32x32</div>
+                                        <div><input type="radio" name="icon_size" id="icon_size_3" value="40x40"<?php if($icon_size=="40x40") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;40x40</div>
+                                        <div><input type="radio" name="icon_size" id="icon_size_4" value="50x50"<?php if($icon_size=="50x50") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;50x50</div>
+                                        <div><input type="radio" name="icon_size" id="icon_size_5" value="60x60"<?php if($icon_size=="60x60") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;60x60</div>
+                                        <div><input type="radio" name="icon_size" id="icon_size_6" value="70x70"<?php if($icon_size=="70x70") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;70x70</div>
+                                        <div><input type="radio" name="icon_size" id="icon_size_7" value="85x85"<?php if($icon_size=="85x85") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;85x85</div>
+                                        <div><input type="radio" name="icon_size" id="icon_size_8" value="100x100"<?php if($icon_size=="100x100") { echo ' checked="checked"'; };?> />&nbsp;&nbsp;100x100</div>
+                                    </td>
+        </tr>
         
-        <div class="lbls radio-danger">
-               		 <input type="radio" name="icon_size"  id="icon_size_<?php echo intval($key+1); ?>" value="<?php echo $val; ?>"<?php if($icon_size==$val) { echo ' checked="checked"'; };?> />
-            	<label for="icon_size_<?php echo intval($key+1); ?>" class="css-label radGroup2"><?php echo $val; ?></label>
-                </div>
-                
-       
-        <?php } ?>     
-       </div>
-       <div class="main-bx1" style="float: none;">
-               	<p>Display Style</p>
-                
-                <div class="lbls radio-danger">
-               		 <input type="radio" name="display_style"  id="display_style_1"  value="0"<?php if($display_style=='0') { echo ' checked="checked"'; };?> />
-            	<label for="display_style_1" class="css-label radGroup2">Horizontal</label>
-                </div>
-                
-                <div class="lbls radio-danger">
-               		 <input type="radio" name="display_style"  id="display_style_2"  value="1"<?php if($display_style=='1') { echo ' checked="checked"'; };?> />
-            	<label for="display_style_2" class="css-label radGroup2">Vertical (Left)</label>
-                </div>
-                 <div class="lbls radio-danger">
-               		 <input type="radio" name="display_style"  id="display_style_3"  value="2"<?php if($display_style=='2') { echo ' checked="checked"'; };?> />
-            	<label for="display_style_3" class="css-label radGroup2">Vertical (Right)</label>
-               </div>
-        
-      
-      </div>
-       <div class="main-bx1" style="float: none;">
-               	<p>Padding Gap</p>
-                
-                <select name="gap" id="gap" >
+        <tr><th align="left">Display Style</th></tr>
+                                <tr>
+                                    <td style="border: medium none;">
+                                        <div><input type="radio" name="display_style" id="display_style_1" value="0"<?php if($display_style=="0") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;Horizontal</div>
+                                        <div><input type="radio" name="display_style" id="display_style_2" value="1"<?php if($display_style=="1") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;Vertical (Left)</div>
+                                        <div><input type="radio" name="display_style" id="display_style_3" value="2"<?php if($display_style=="2") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;Vertical (Right)</div>                                        
+                                    </td>
+                                </tr>
+         <tr><th align="left">Padding Gap</th></tr>
+                                <tr>
+                                    <td style="border: medium none;">
+                                    <select name="gap" id="gap" >
                                     <?php for($i=0;$i<=20;$i++) { ?>
                                     <option value="<?php echo $i; ?>" <?php echo ($i==$gap)?"selected":"";?> ><?php echo $i; ?></option>
                                     <?php } ?>
                                     </select>px
+                                         </td>
+                                </tr>                       
+            <tr>
+                                    <td>
                                     
-                
-       </div>
-       
-       
-                                  
                                     <div class="btn">
             <input type="submit" id="button" name="save_share_2"  value="Save"  />
                	  
                 </div>
-       <div style="clear: both;">&nbsp;&nbsp;</div>
-       
-       
-       
-                     
+                                                                            </td>
+                     </tr>
                                                                   
-      
+      </table>
      </div>
         
 
-     <div style="tab8" style="display: none;">
-	 
-      
-      <div class="main-bx1" style="float: none;">
-               	<p>Counter Display</p>
-                
-                <div class="lbls radio-danger">
-               		 <input type="radio" name="counter_type"  id="counter_type_1"  value="0"<?php if($counter_type=='0') { echo ' checked="checked"'; };?> />
-            	<label for="counter_type_1" class="css-label radGroup2">Horizontal</label>
-                </div>
-                
-                <div class="lbls radio-danger">
-               		 <input type="radio" name="counter_type"  id="counter_type_2"  value="1"<?php if($counter_type=='1') { echo ' checked="checked"'; };?> />
-            	<label for="counter_type_2" class="css-label radGroup2">Vertical</label>
-                </div>
-                 <div class="lbls radio-danger">
-               		 <input type="radio" name="counter_type"  id="counter_type_3"  value="2"<?php if($counter_type=='2') { echo ' checked="checked"'; };?> />
-            	<label for="counter_type_3" class="css-label radGroup2">No Counter</label>
-               </div>
-        
-      
-      </div>
-	                                    <div class="btn">
+     <div class="tabbertab">
+	  <h2>Counter</h2>
+	  <table class="table" style="margin:20px;font-size:1em;">
+      <tr><th align="left">Counter Display</th></tr>
+                                <tr>
+                                    <td style="border: medium none;">
+                                        <div><input type="radio" name="counter_type" id="counter_type_1" value="0"<?php if($counter_type=="0") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;Horizontal</div>
+                                        <div><input type="radio" name="counter_type" id="counter_type_2" value="1"<?php if($counter_type=="1") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;Vertical</div>
+                                        <div><input type="radio" name="counter_type" id="counter_type_3" value="2"<?php if($counter_type=="2") { echo ' checked="checked"'; };?>  />&nbsp;&nbsp;No Counter</div>
+                                    </td>
+                                </tr> 
+        <tr>
+                                    <td>
+                                        <div class="btn">
             <input type="submit" id="button" name="save_share_3"  value="Save"  />
                	  
                 </div>
-                                  <div style="clear: both;">&nbsp;&nbsp;</div>  
-      
+                                    </td>
+                     </tr>
+                                    
+      </table>
      </div>
 
 </div>
@@ -866,23 +749,38 @@ function show_sub_activate(tab_id)
             <div class="sect-right">
         	<div class="orange">
             	<h2 class="sub-tit"><span>Support & FAQ</span></h2>
-                <div class="orange">            	
                 <div class="org-sub">
-                <p><a href="http://developers.socleversocial.com/how-to-get-api-key-and-secret/" target="_blank">How to get Soclever API key and secret?</a></p>                
-                <p><a href="https://www.socleversocial.com/about-us/" target="_blank">About Soclever</a></p>                
-                <p><a href="http://developers.socleversocial.com/wordpress-social-sharing-buttons-instructions/" target="_blank">Wordpress Social Sharing Buttons instructions</a></p>                
+                <p>How to get Soclever API key and secret?</p>
+                <p>Social Network Apps Set Up</p>
+                <p>About Soclever</p>
+                <p>How do I setup a fully customizable interface?</p>
+                <p>Wordpress Social Sharing instructions</p>
+                <p>How do I setup the friend invite feature?</p>
+                <p>Unified social API specifications</p>
+                <p>Wordpress Social Login instructions</p>
+                <p>Joomla Social Login instructions</p>
+                <p>How do I create a Facebook app?</p>
+                <p>How do I create a Google+ app?</p>
+                <p>How do I create a Twitter app?</p>
+                <p>How do I create a LinkedIn app?</p>
+                <p>How do I create a Yahoo app?</p>
                 </div>
             </div>
             
-            </div>
-            
+            <!--div class="r-video">
+            	<p>How to Create Facebook App for Website</p>
+                <a href="javascript:void(0);" onclick="show_video();">
+                <img src="<?php echo plugins_url('scss_css/video.png', __FILE__); ?>" alt="How to Create Facebook App for Website"/>
+                </a>
+                
+            </div-->
             
             <div class="reviews">
             	<h2><img src="<?php echo plugins_url('scss_css/review_heading_icon.png', __FILE__); ?>" alt="" /> We Love Reviews</h2>
                 <div class="review_con">
                 	<p><img src="<?php echo plugins_url('scss_css/review_star_img.png', __FILE__); ?>" alt=""/></p>
                     <p>Please click here to leave a review. </p>
-                    <p><a href="https://wordpress.org/support/view/plugin-reviews/share-buttons-by-soclever" target="_blank">Rate Us</a></p>
+                    <p><a href="https://wordpress.org/plugins/share-buttons-by-soclever/" target="_blank">Rate Us</a></p>
                 </div>
             </div>
         </div>
@@ -891,4 +789,4 @@ function show_sub_activate(tab_id)
     </div>
 </section>
 
-<?php } ?>
+ <?php } ?>

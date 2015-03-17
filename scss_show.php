@@ -1,18 +1,4 @@
 <?php
-function cs_get_plusones($url)  {
-$curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "https://clients6.google.com/rpc");
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($curl, CURLOPT_POSTFIELDS, '[{"method":"pos.plusones.get","id":"p","params":{"nolog":true,"id":"'.rawurldecode($url).'","source":"widget","userId":"@viewer","groupId":"@self"},"jsonrpc":"2.0","key":"p","apiVersion":"v1"}]');
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
-$curl_results = curl_exec ($curl);
-curl_close ($curl);
-$json = json_decode($curl_results, true);
-return isset($json[0]['result']['metadata']['globalCounts']['count'])?intval( $json[0]['result']['metadata']['globalCounts']['count'] ):0;
-}
-
 function cs_format_share_url($url,$source)
 {
     
@@ -67,7 +53,7 @@ function scsss_display($content)
     {
      
      $cspageURL = 'http';
-     if($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+     if($_SERVER["HTTPS"] == "on") {$cspageURL .= "s";}
          $cspageURL .= "://";
          if ($_SERVER["SERVER_PORT"] != "80") {
          $cspageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
@@ -278,47 +264,20 @@ function scsss_display($content)
     {
          
          
-         $fburl=$url.(parse_url($url, PHP_URL_QUERY) ? '&' : '?').'scsource=1';
-         $liurl=$url.(parse_url($url, PHP_URL_QUERY) ? '&' : '?').'scsource=2';
-         $gpurl=$url.(parse_url($url, PHP_URL_QUERY) ? '&' : '?').'scsource=3';
-         $twurl=$url.(parse_url($url, PHP_URL_QUERY) ? '&' : '?').'scsource=4';
-         
-         $fb=json_decode(file_get_contents("http://graph.facebook.com/?ids=".$url.",".$fburl.""));
-         $tw=json_decode(file_get_contents("http://cdn.api.twitter.com/1/urls/count.json?url=".$url.""));
-         $tw2=json_decode(file_get_contents("http://cdn.api.twitter.com/1/urls/count.json?url=".$twurl.""));
-         $li=json_decode(file_get_contents("http://www.linkedin.com/countserv/count/share?url=".$url."&format=json"));
-         $li2=json_decode(file_get_contents("http://www.linkedin.com/countserv/count/share?url=".$liurl."&format=json"));         
-         $pin_count=file_get_contents("http://api.pinterest.com/v1/urls/count.json?url=".$url."");
-         
-         $other_count=file_get_contents("https://www.socleversocial.com/dashboard/get_other_count.php?site_id=".sanitize_text_field(get_option('scss_site_id'))."&url=".$url."");
-         $row_count=explode("~",$other_count);
-         $str=substr(substr($pin_count,0,-1),13);
-         $pin_arr=json_decode($str);
-        
-         
-         $fb=json_decode(file_get_contents("http://graph.facebook.com/?id=".$url.""));
-         $tw=json_decode(file_get_contents("http://cdn.api.twitter.com/1/urls/count.json?url=".$url.""));
-         $li=json_decode(file_get_contents("http://www.linkedin.com/countserv/count/share?url=".$url."&format=json"));         
-         $pin_count=file_get_contents("http://api.pinterest.com/v1/urls/count.json?url=".$url."");
-
-         $str=substr(substr($pin_count,0,-1),13);
-         $pin_arr=json_decode($str);
-        
-	
-      $fb_shares="FB Shares=".$fb->shares."==Googleplus==".$count."==Twitter=".$tw->count."===Linked==".$li->count."==Pinterest==".$pin_arr->count;
       $counter_top_margin='';
     if($counter_type=='0')
     {
         $counter_top_margin='margin-top:'.intval($iwidth[0]/4).'px;';
-     }   
-    
+     }
+    $other_count=get_csscurl("https://www.socleversocial.com/dashboard/get_other_counts.php?site_id=".sanitize_text_field(get_option('scss_site_id'))."&url=".$url."");
+    $row_count=explode("~",$other_count);
     $comon_counter_end='</div></div>';
     $count2=$count4=$count7=$count13=$count17=$count18=$count19=$count20="";
-    $count2r=$count2=''.$comon_counter_start.''.intval($fb->$url->shares+$fb->$fburl->shares).''.$comon_counter_end.'';
-    $count4r=$count4=''.$comon_counter_start.''.intval(cs_get_plusones($url)+cs_get_plusones($gpurl)).''.$comon_counter_end.'';
-    $count7r=$count7=''.$comon_counter_start.''.intval($tw->count+$tw2->count).''.$comon_counter_end.'';
-    $count13r=$count13=''.$comon_counter_start.''.intval($li->count+$li2->count).''.$comon_counter_end.'';
-    $count17r=$count17=''.$comon_counter_start.''.intval($pin_arr->count).''.$comon_counter_end.'';
+    $count2r=$count2=''.$comon_counter_start.''.intval($row_count[4]).''.$comon_counter_end.'';
+    $count4r=$count4=''.$comon_counter_start.''.intval($row_count[6]).''.$comon_counter_end.'';
+    $count7r=$count7=''.$comon_counter_start.''.intval($row_count[5]).''.$comon_counter_end.'';
+    $count13r=$count13=''.$comon_counter_start.''.intval($row_count[7]).''.$comon_counter_end.'';
+    $count17r=$count17=''.$comon_counter_start.''.intval($row_count[8]).''.$comon_counter_end.'';
     $count18r=$count18=''.$comon_counter_start_18.''.intval($row_count[0]).''.$comon_counter_end.'';
     $count19r=$count19=''.$comon_counter_start.''.intval($row_count[1]).''.$comon_counter_end.'';
     $count20r=$count20=''.$comon_counter_start.''.intval($row_count[2]).''.$comon_counter_end.'';
