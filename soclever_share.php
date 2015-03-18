@@ -733,7 +733,7 @@ function show_sub_activate(tab_id)
      </div>
         
 
-     <div style="tab8" style="display: none;">
+     <div id="tab8" style="display: none;">
 	 
       
       <div class="main-bx1" style="float: none;">
