@@ -4,7 +4,7 @@ Plugin Name: Share Buttons & Analytics By Soclever Social
 Plugin URI: https://www.socleversocial.com/
 Description: A simple and easy to use plugin that enables you to add share buttons to all of your posts and/or pages and get detailed report on our Soclever dashbaord.
 
-Version: 1.1.0
+Version: 1.1.1
 Author: Soclever Team
 Author URI: https://www.socleversocial.com/
 Author Email:info@socleversocial.com
