@@ -66,7 +66,7 @@ function scsss_display($content)
       
      $js_code .=    PHP_EOL;
      
-     
+       $js_code .=    PHP_EOL;
     $vartical_top=$counter_position="";
     $main_div='height:'.$iwidth[0].'px';
     if($counter_type=='0' || $counter_type=='1')
@@ -292,16 +292,66 @@ function scsss_display($content)
         $count2r=$count4r=$count7r=$count13r=$count17r=$count18r=$count19r=$count20r="";
     }   
     $user_ID = get_current_user_id();
-       
-    $share_arr[2]='<div style="float:left;">'.$count2.'<img '.$src_style2.' onclick="share_on_cs(\'1\',\''.sanitize_text_field($user_ID).'\');window.open(\'http://www.facebook.com/sharer.php?u='.urlencode(cs_format_share_url($url,'1')).'&t='.urlencode($title).'\',\'_new\');"  alt="Share on Facebook"  ></div>'.$count2r.''.$gap_string.'';         
-    $share_arr[4]='<div style=\'float:left;\'>'.$count4.'<img  '.$src_style4.' onclick="share_on_cs(\'3\',\''.sanitize_text_field($user_ID).'\');window.open(\'https://plus.google.com/share?url='.urlencode(cs_format_share_url($url,'3')).'&title='.urlencode($title).'\',\'_new\');"   alt="Share on Google+"></div>'.$count4r.''.$gap_string.'';        
-    $share_arr[7]='<div style=\'float:left;\'>'.$count7.'<img '.$src_style7.' onclick="share_on_cs(\'2\',\''.sanitize_text_field($user_ID).'\');window.open(\'https://www.linkedin.com/cws/share?url='.urlencode(cs_format_share_url($url,'2')).'&title='.urlencode($title).'\',\'_new\');" alt="Share on LinkedIN" ></div>'.$count7r.''.$gap_string.'';        
-    $share_arr[13]='<div style=\'float:left;\'>'.$count13.'<img  '.$src_style13.' onclick="share_on_cs(\'4\',\''.sanitize_text_field($user_ID).'\');window.open(\'http://twitter.com/share?url='.urlencode(cs_format_share_url($url,'4')).'&text='.urlencode($title).'\',\'_new\');"  alt="Share on Twitter"></div>'.$count13r.''.$gap_string.'';
+    
+    $picture_url="";
+        $featuredimg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID));
+        if($featuredimg[0])
+        {
+            $picture_url=$featuredimg[0];
+            
+        }
+        else if($picture_url=="")
+        {
+            
+            if($images = get_posts(array(
+		'post_parent'    => get_the_ID(),
+		'post_type'      => 'attachment',
+		'numberposts'    => -1, // show all
+		'post_status'    => null,
+		'post_mime_type' => 'image',
+                'orderby'        => 'menu_order',
+                'order'           => 'ASC',
+	))) {
+		foreach($images as $image) {
+			$attimg   = wp_get_attachment_image_src($image->ID,false);
+            $picture_url =$attimg[0];            
+            break;
+
+ 
+		}
+	}
+            
+        }
+        
+        if($picture_url=="")
+        {
+           $picture_url=get_option('scss_default_img'); 
+        }
+        
+        
+        
+    if(get_option('scss_clientfb_id')!='')
+    {
+        
+       $sharE_url="https://www.facebook.com/dialog/feed?app_id=".get_option('scss_clientfb_id')."&display=popup&description=&picture=".urlencode($picture_url)."&name=".urlencode($title)."&link=".urlencode(cs_format_share_url($url,'1'))."&redirect_uri=".urlencode(admin_url('admin-ajax.php')."?action=scsfbsharert"); 
+        
+    }
+    else
+    {
+        $sharE_url="https://www.facebook.com/dialog/feed?app_id=379676712196705&display=popup&description=&picture=".urlencode($picture_url)."&name=".urlencode($title)."&link=".urlencode(cs_format_share_url($url,'1'))."&redirect_uri=".urlencode("https://www.socleversocial.com/dashboard/fbsharereturn.php");
+        
+    }
+    $share_arr[2]='<div style="float:left;">'.$count2.'<img '.$src_style2.' onclick="cspopupCenter(\''.$sharE_url.'\',\'Shre on FB\',\'600\',\'400\');share_on_cs(\'1\',\''.sanitize_text_field($user_ID).'\');"  alt="Share on Facebook"  ></div>'.$count2r.''.$gap_string.'';
+    
+             
+    $share_arr[4]='<div style=\'float:left;\'>'.$count4.'<img  '.$src_style4.' onclick="cspopupCenter(\'https://plus.google.com/share?url='.urlencode(cs_format_share_url($url,'3')).'&title='.urlencode($title).'\',\'Share on Google Plus\',\'600\',\'400\');share_on_cs(\'3\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Google+"></div>'.$count4r.''.$gap_string.'';        
+    $share_arr[7]='<div style=\'float:left;\'>'.$count7.'<img '.$src_style7.' onclick="cspopupCenter(\'https://www.linkedin.com/cws/share?url='.urlencode(cs_format_share_url($url,'2')).'&title='.urlencode($title).'\',\'Share on LinkedIN\',\'600\',\'400\');share_on_cs(\'2\',\''.sanitize_text_field($user_ID).'\');" alt="Share on LinkedIN" ></div>'.$count7r.''.$gap_string.'';        
+    $share_arr[13]='<div style=\'float:left;\'>'.$count13.'<img  '.$src_style13.' onclick="cspopupCenter(\'http://twitter.com/share?url='.urlencode(cs_format_share_url($url,'4')).'&text='.urlencode($title).'\',\'Share on Twitter\',\'600\',\'400\');share_on_cs(\'4\',\''.sanitize_text_field($user_ID).'\');"  alt="Share on Twitter"></div>'.$count13r.''.$gap_string.'';
     $share_arr[17]='<div style=\'float:left;\'>'.$count17.'<img  '.$src_style17.' onclick="share_on_cs(\'5\',\''.sanitize_text_field($user_ID).'\');"   alt="Pin It"></div>'.$count17r.''.$gap_string.'';
     $share_arr[18]='<div style=\'float:left;\'>'.$count18.'<img  '.$src_style18.' onclick="share_on_cs(\'6\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Whatsapp"></div>'.$count18r.''.$gap_string.'';
-    $share_arr[19]='<div style=\'float:left;\'>'.$count19.'<img  '.$src_style19.' onclick="share_on_cs(\'7\',\''.sanitize_text_field($user_ID).'\');window.open(\'http://www.stumbleupon.com/submit?url='.urlencode(cs_format_share_url($url,'7')).'&title='.urlencode($title).'\',\'_new\');"   alt="Share on StumbleUpon"></div>'.$count19r.''.$gap_string.'';
-    $share_arr[20]='<div style=\'float:left;\'>'.$count20.'<img  '.$src_style20.' onclick="share_on_cs(\'8\',\''.sanitize_text_field($user_ID).'\');window.open(\'http://www.reddit.com/submit?url='.urlencode(cs_format_share_url($url,'8')).'&title='.urlencode($title).'\',\'_new\');"   alt="Share on Reddit"></div>'.$count20r.''.$gap_string.'';
-    $share_arr[21]='<div style=\'float:left;\'>'.$count21.'<img  '.$src_style21.' onclick="share_on_cs(\'9\',\''.sanitize_text_field($user_ID).'\');window.open(\'http://www.tumblr.com/share/link?url='.urlencode(cs_format_share_url($url,'9')).'&name='.urlencode($title).'&description='.urlencode($csDescription).'\',\'_new\');"   alt="Share on Reddit"></div>'.$count21r.''.$gap_string.'';
+    $share_arr[19]='<div style=\'float:left;\'>'.$count19.'<img  '.$src_style19.' onclick="cspopupCenter(\'http://www.stumbleupon.com/submit?url='.urlencode(cs_format_share_url($url,'7')).'&title='.urlencode($title).'\',\'Share on StumbleUpon\',\'600\',\'400\');share_on_cs(\'7\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on StumbleUpon"></div>'.$count19r.''.$gap_string.'';
+    $share_arr[20]='<div style=\'float:left;\'>'.$count20.'<img  '.$src_style20.' onclick="cspopupCenter(\'http://www.reddit.com/submit?url='.urlencode(cs_format_share_url($url,'8')).'&title='.urlencode($title).'\',\'Share on Reddit\',\'600\',\'400\');share_on_cs(\'8\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Reddit"></div>'.$count20r.''.$gap_string.'';
+    $share_arr[21]='<div style=\'float:left;\'>'.$count21.'<img  '.$src_style21.' onclick="cspopupCenter(\'http://www.tumblr.com/share/link?url='.urlencode(cs_format_share_url($url,'9')).'&name='.urlencode($title).'&description='.urlencode($csDescription).'\',\'Share on Tumblr\',\'600\',\'400\');share_on_cs(\'9\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Reddit"></div>'.$count21r.''.$gap_string.'';
     
     
     $start_div='<div id="scssdiv" style="clear:both;wdth:100%;height:100%;display:inline-block;z-index:999;">';
@@ -316,7 +366,15 @@ if($display_style=='1' || $display_style=='2' )
     $end_div='</div>';
 }
 
-    
+    $js_code .='<script>
+         function cspopupCenter(url, title, w, h) {
+            
+  var left = (screen.width/2)-(w/2);
+  var top = (screen.height/2)-(h/2);
+  return window.open(url, title, \'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=\'+w+\', height=\'+h+\', top=\'+top+\', left=\'+left);
+}
+</script>
+'.PHP_EOL;
     $js_code .=    PHP_EOL;
     $js_code .=$start_div;
         foreach($share_button as $key=>$val)

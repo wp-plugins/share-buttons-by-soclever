@@ -37,6 +37,8 @@ function scss_activation(){
         update_option('scss_show_category','0');
         update_option('scss_show_excerpts','0');
         update_option('scss_module_loaded','0');
+        update_option('scss_clientfb_id','');
+        update_option('scss_default_img','');
         $share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
         foreach($share_button_title as $key=>$val)
         {
@@ -73,6 +75,9 @@ function scss_uninstall()
         delete_option('scss_show_category');
         delete_option('scss_show_excerpts');
         delete_option('scss_module_loaded');
+        delete_option('scss_default_img');
+        delete_option('scss_clientfb_id');
+        delete_option('scs_share_ins');
          $share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
         foreach($share_button_title as $key=>$val)
         {
@@ -100,6 +105,15 @@ function scss_uninstall()
 	return $links;
 }
 add_filter ('plugin_action_links', 'soclever_share_setup', 10, 2);
+
+add_action('wp_ajax_scsfbsharert', 'scss_fbshare_return' );
+add_action('wp_ajax_nopriv_scsfbsharert', 'scss_fbshare_return' );
+function scss_fbshare_return()
+{
+    echo'<script type="text/javascript">self.close();</script>';
+    exit;
+   
+}
 
 
   function get_csscurl($url)
@@ -154,6 +168,18 @@ function cs_share_menu(){
     add_menu_page( 'Share Buttons By SoClever', 'Share Buttons By SoClever', 'manage_options', 'soclever_share', 'scsshare_html_page', plugins_url( 'scss_css/sc_share.png', __FILE__ ), 81); 
 }
 
+add_action('wp_footer', 'scss_js_footer');
+
+function scss_js_footer()
+{
+    update_option('scs_share_ins','1');
+   $footer_js='<script type="text/javascript">var sid=\''.get_option('scss_site_id').'\';(function()
+                                                    { var u=((\'https:\'==document.location.protocol)?\'http://\':\'http://\')+\'s3.socleversocial.com/\'; var su=u;var s=document.createElement(\'script\'); s.type=\'text/javascript\'; s.defer=true; s.async=true; s.src=su+\'scs.js\'; var p=document.getElementsByTagName(\'script\')[0]; p.parentNode.insertBefore(s,p); }
+                                                    )();       
+                                           </script>'; 
+   $footer_js .=PHP_EOL;
+   echo $footer_js;                                        
+}	   
     
     add_action('wp_head', 'scss_image_set');
 
@@ -292,6 +318,8 @@ update_option('scss_gap',sanitize_text_field($_POST['gap']));
 update_option('scss_icon_size',sanitize_text_field($_POST['icon_size']));
 update_option('scss_display_style',sanitize_text_field($_POST['display_style']));
 update_option('scss_button_style',sanitize_text_field($_POST['button_style']));
+update_option('scss_default_img',sanitize_text_field($_POST['scss_default_img']));
+update_option('scss_clientfb_id',sanitize_text_field($_POST['scss_clientfb_id']));
 
 update_option('scss_show_homepage',sanitize_text_field($_POST['scss_show_homepage']));
         update_option('scss_show_post',sanitize_text_field($_POST['scss_show_post']));
@@ -588,6 +616,26 @@ function show_sub_activate(tab_id)
                                     </td>
                                 </tr>
                                 
+                                 <tr>
+                    <th align="left" style="font-size: 14px; font-weight: 300;;">Your Facebook App ID</th>
+                    </tr>
+                    <tr>                    
+                    <td>
+                         <div class="main-bx1" style="padding:5px 0px 10px 0px;">
+                        <input type="text" placeholder="your fb app id" name="scss_clientfb_id" value="<?php echo get_option('scss_clientfb_id'); ?>" class="input-txt" style="width: 150%;">
+                        </div>
+                      </td>
+                    </tr>       
+                    <tr>
+                    <th align="left" style="font-size: 14px; font-weight: 300;;">Default sharing image</th>
+                    </tr>
+                    <tr>                    
+                    <td>
+                        <div class="main-bx1" style="padding:5px 0px 10px 0px;">
+                        <input type="text" placeholder="e.g your logo url" name="scss_default_img" value="<?php echo get_option('scss_default_img'); ?>" class="input-txt" style="width: 150%;">
+                        </div>
+                      </td>
+                    </tr>
                                 <tr>
                     <th align="left">Show on</th>
                     </tr>
