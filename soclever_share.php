@@ -4,7 +4,7 @@ Plugin Name: Share Buttons & Analytics By Soclever Social
 Plugin URI: https://www.socleversocial.com/
 Description: A simple and easy to use plugin that enables you to add share buttons to all of your posts and/or pages and get detailed report on our Soclever dashbaord.
 
-Version: 1.1.1
+Version: 1.1.2
 Author: Soclever Team
 Author URI: https://www.socleversocial.com/
 Author Email:info@socleversocial.com
@@ -346,12 +346,12 @@ if(isset($_POST['submit_share']) && sanitize_text_field($_POST['submit_share'])=
 {
    
     
-    $res_ponse_str=file_get_contents('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.sanitize_text_field($_POST['client_id']).'&api_key='.sanitize_text_field($_POST['api_key']).'&api_secret='.sanitize_text_field($_POST['api_secret']).'');
+    $res_ponse_str=file_get_contents('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.sanitize_text_field($_POST['client_id']).'&api_key='.sanitize_text_field($_POST['api_key']).'&api_secret='.sanitize_text_field($_POST['api_secret']).'&ser=4');
     
     
     if(!$res_ponse_str)
     {
-        $res_ponse_str=get_csscurl('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.sanitize_text_field($_POST['client_id']).'&api_key='.sanitize_text_field($_POST['api_key']).'&api_secret='.sanitize_text_field($_POST['api_secret']).'');
+        $res_ponse_str=get_csscurl('https://www.socleversocial.com/dashboard/wp_activate.php?site_id='.sanitize_text_field($_POST['client_id']).'&api_key='.sanitize_text_field($_POST['api_key']).'&api_secret='.sanitize_text_field($_POST['api_secret']).'&ser=4');
     }
     else
     {
