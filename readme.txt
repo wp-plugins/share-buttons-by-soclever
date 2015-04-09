@@ -126,6 +126,10 @@ PHP 5+ is preferred; PHP 4 is supported.
 
 == Upgrade Notice ==
 
+
+= 1.0.2 =
+* We have made easier to configure sharing with more networks
+
 = 1.0.2 =
 * Ability to add custom share buttons
 
