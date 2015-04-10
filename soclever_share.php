@@ -901,12 +901,8 @@ function show_sub_activate(tab_id)
                 <div class="main-bx1">
                 	<p>1. <a class="sky" href="https://www.socleversocial.com/dashboard/" target="_blank">Login</a> to your SoClever account. Or <a class="sky" href="https://www.socleversocial.com/register/?wpd=<?php echo base64_encode(get_site_url()); ?>" target="_blank" >Register</a></span> for free account to generate API Keys.</p>
                     <p>2. Go to Site Settings . Your API key, API secret and site ID will be displayed on this page.</p>
-                    <p>3. Configure your API details on API settings tab on your magento Admin Panel.</p>
-                    <p>4. To be able to enable Social Login for your site, please create Social Apps on social networks. For more information on how to create Apps for your website please visit our help section on Social Network Set Up.</p>
-                    <p>5. Please configure your Social Apps API details on SoClever Authorization page.</p>
-                    <p>6. Once you configure Authorization Page, social network buttons will be unlocked to use at Login Settings Page. Please select social networks you want to use for social login and save settings.</p>
-                    <p>7. Refresh your admin panel to configure button size, padding gap and buttons style.</p>
-                    <p>8. Feel free to contact us for any assistance you may require.</p>
+                    <p>3. Configure your API details on API settings tab on your Wordpress Admin Panel.</p>
+                    <p>4. Feel free to contact us for any assistance you may require.</p>
                 </div>
                 
            	</div>
