@@ -1,5 +1,5 @@
 ﻿=== Share Buttons & Analytics By SoClever Social ===
-Contributors: Socleversocial
+Contributors: Socleversocial, hemanglashkary
 Tags: share bar, like bar, share buttons, facebook, whatsapp, twitter, google, linkedin, SoClever, Simple share buttons, share icons, Simple share buttons adder
 Requires at least: 3.0.1
 Tested up to: 4.1
