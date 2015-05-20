@@ -3,7 +3,7 @@ Contributors: Socleversocial, hemanglashkary
 Tags: share bar, like bar, share buttons, facebook, whatsapp, twitter, google, linkedin, SoClever, Simple share buttons, share icons, Simple share buttons adder
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,9 @@ Our team answers your questions at: https://www.socleversocial.com/contact-us/
 PHP 5+ is preferred; PHP 4 is supported.
 
 == Changelog ==
+
+= 1.1.3 =
+* Added Mobile Friendly Share Bar Designs
 
 = 1.1.2 =
 * Added platform id

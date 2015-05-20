@@ -4,7 +4,7 @@ Plugin Name: Share Buttons & Analytics By Soclever Social
 Plugin URI: https://www.socleversocial.com/
 Description: A simple and easy to use plugin that enables you to add share buttons to all of your posts and/or pages and get detailed report on our Soclever dashbaord.
 
-Version: 1.1.2
+Version: 1.1.3
 Author: Soclever Team
 Author URI: https://www.socleversocial.com/
 Author Email:info@socleversocial.com
@@ -13,6 +13,7 @@ Author Email:info@socleversocial.com
 if ( ! defined('ABSPATH')) exit;
 
 register_activation_hook(__FILE__, 'scss_activation');
+register_deactivation_hook(__FILE__, 'scss_deactivation');
 register_uninstall_hook(__FILE__, 'scss_uninstall');
 require_once( plugin_dir_path( __FILE__ ) . 'scss_show.php');
 function scss_activation(){
@@ -39,6 +40,7 @@ function scss_activation(){
         update_option('scss_module_loaded','0');
         update_option('scss_clientfb_id','');
         update_option('scss_default_img','');
+        update_option('scss_mobile_friendly','0');
         $share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
         foreach($share_button_title as $key=>$val)
         {
@@ -50,6 +52,9 @@ function scss_activation(){
                     
 	}
 
+function scss_deactivation(){
+    delete_option('scs_share_ins');
+    }
 
 function scss_uninstall()
 	{
@@ -78,6 +83,7 @@ function scss_uninstall()
         delete_option('scss_default_img');
         delete_option('scss_clientfb_id');
         delete_option('scs_share_ins');
+        delete_option('scss_mobile_friendly');
          $share_button_title=array("2"=>"Facebook","4"=>"Google+","7"=>"LinkedIN","13"=>"Twitter","17"=>"Pinterest","18"=>"WhatsApp","19"=>"StumbleUpon","20"=>"Reddit","21"=>"Tumblr");
         foreach($share_button_title as $key=>$val)
         {
@@ -174,7 +180,7 @@ function scss_js_footer()
 {
     update_option('scs_share_ins','1');
    $footer_js='<script type="text/javascript">var sid=\''.get_option('scss_site_id').'\';(function()
-                                                    { var u=((\'https:\'==document.location.protocol)?\'http://\':\'http://\')+\'s3.socleversocial.com/\'; var su=u;var s=document.createElement(\'script\'); s.type=\'text/javascript\'; s.defer=true; s.async=true; s.src=su+\'scs.js\'; var p=document.getElementsByTagName(\'script\')[0]; p.parentNode.insertBefore(s,p); }
+                                                    { var u=((\'https:\'==document.location.protocol)?\'https://\':\'https://\')+\'s3.socleversocial.com/\'; var su=u;var s=document.createElement(\'script\'); s.type=\'text/javascript\'; s.defer=true; s.async=true; s.src=su+\'scs.js\'; var p=document.getElementsByTagName(\'script\')[0]; p.parentNode.insertBefore(s,p); }
                                                     )();       
                                            </script>'; 
    $footer_js .=PHP_EOL;
@@ -320,7 +326,7 @@ update_option('scss_display_style',sanitize_text_field($_POST['display_style']))
 update_option('scss_button_style',sanitize_text_field($_POST['button_style']));
 update_option('scss_default_img',sanitize_text_field($_POST['scss_default_img']));
 update_option('scss_clientfb_id',sanitize_text_field($_POST['scss_clientfb_id']));
-
+update_option('scss_mobile_friendly',sanitize_text_field($_POST['scss_mobile_friendly']));
 update_option('scss_show_homepage',sanitize_text_field($_POST['scss_show_homepage']));
         update_option('scss_show_post',sanitize_text_field($_POST['scss_show_post']));
         update_option('scss_show_page',sanitize_text_field($_POST['scss_show_page']));
@@ -636,6 +642,7 @@ function show_sub_activate(tab_id)
                         </div>
                       </td>
                     </tr>
+                    <th align="left">Short Code : [Soclever_Sharebar] </th>
                                 <tr>
                     <th align="left">Show on</th>
                     </tr>
@@ -753,6 +760,25 @@ function show_sub_activate(tab_id)
         
       
       </div>
+      
+       <div class="main-bx1" style="float: none;">
+               	<p>Mobile Friendly?</p>
+                
+                <div class="lbls radio-danger">
+               		 <input type="radio" name="scss_mobile_friendly"  id="scss_mobile_friendly_1"  value="1"<?php if(get_option('scss_mobile_friendly')=='1') { echo ' checked="checked"'; };?> />
+            	<label for="scss_mobile_friendly_1" class="css-label radGroup2">Yes</label>
+               </div>
+                
+                <div class="lbls radio-danger">
+               		 <input type="radio" name="scss_mobile_friendly"  id="scss_mobile_friendly_2"  value="0"<?php if(get_option('scss_mobile_friendly')=='0') { echo ' checked="checked"'; };?> />
+            	<label for="display_style_2" class="css-label radGroup2">No</label>
+                </div>
+               
+      
+      </div> 
+       
+      
+      
        <div class="main-bx1" style="float: none;">
                	<p>Padding Gap</p>
                 
@@ -900,9 +926,13 @@ function show_sub_activate(tab_id)
                 </h2>
                 <div class="main-bx1">
                 	<p>1. <a class="sky" href="https://www.socleversocial.com/dashboard/" target="_blank">Login</a> to your SoClever account. Or <a class="sky" href="https://www.socleversocial.com/register/?wpd=<?php echo base64_encode(get_site_url()); ?>" target="_blank" >Register</a></span> for free account to generate API Keys.</p>
-                    <p>2. Get your API key, API secret and site ID from Site Settings page.</p>
-                    <p>3. Configure your API details on API settings tab on your Wordpress Admin Panel.</p>
-                    <p>4. Feel free to contact us for any assistance you may require.</p>
+                    <p>2. Go to Site Settings . Your API key, API secret and site ID will be displayed on this page.</p>
+                    <p>3. Configure your API details on API settings tab on your magento Admin Panel.</p>
+                    <p>4. To be able to enable Social Login for your site, please create Social Apps on social networks. For more information on how to create Apps for your website please visit our help section on Social Network Set Up.</p>
+                    <p>5. Please configure your Social Apps API details on SoClever Authorization page.</p>
+                    <p>6. Once you configure Authorization Page, social network buttons will be unlocked to use at Login Settings Page. Please select social networks you want to use for social login and save settings.</p>
+                    <p>7. Refresh your admin panel to configure button size, padding gap and buttons style.</p>
+                    <p>8. Feel free to contact us for any assistance you may require.</p>
                 </div>
                 
            	</div>

@@ -22,13 +22,19 @@ $newUrl = substr_replace($url,"$separator$name=$value",$insertPosition,0);
 }
 
 
-function scsss_display($content)
+function scs_is_mobile()
+{
+    $useragent=$_SERVER['HTTP_USER_AGENT'];
+    
+    return preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4));
+}
+
+function get_scscode($is_shorcode='1')
 {
     
-      
-   $sscc_share_content_position=get_option('scss_display_position');
-        		
-	$content_new = "";
+  
+    
+    $content_new = "";
                 
                 
                 
@@ -84,13 +90,16 @@ function scsss_display($content)
                 '</style>'.PHP_EOL;
     }
     $useragent=$_SERVER['HTTP_USER_AGENT'];
+    $is_mobile='0';
     $mobile_Display="display:none;";
     $comon_counter_start='<div class="arrow_box" ><div style="color:#000;font-weight:bold;position: relative;width: 100%;text-align: center;'.$counter_top_margin.'">';
     $comon_counter_start_18='<div class="arrow_box" style="display:none;"><div style="color:#000;font-weight:bold;position: relative;width: 100%;text-align: center;'.$counter_top_margin.'">';
-    if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)))
+    if(scs_is_mobile())
     {
         
+        $is_mobile='1';
         $mobile_Display="display:inline-block;";
+        $iwidth=explode("x","40x40");
         $comon_counter_start_18='<div class="arrow_box"><div style="color:#000;font-weight:bold;position: relative;width: 100%;text-align: center;'.$counter_top_margin.'">';
     }    
     $share_button_label=array("2"=>"facebook","4"=>"google_plus","7"=>"linkedin","13"=>"twitter","17"=>"pinterest","18"=>"whatsapp","19"=>"stumbleupon","20"=>"reddit");
@@ -252,11 +261,16 @@ function scsss_display($content)
         
         if($display_style=='1')
         {
-            $gap_string='<div style=\'float:left;height:'.$gap.'px;\'>&nbsp;</div>';
+            $gap_string='<span style=\'float:left;height:'.$gap.'px;\'>&nbsp;</span>';
         }
         else
         {
-            $gap_string='<div style=\'float:left;width:'.$gap.'px;\'>&nbsp;</div>';
+            $gap_string='<span style=\'float:left;width:'.$gap.'px;\'>&nbsp;</span>';
+        }
+        
+         if(get_option('scss_mobile_friendly')=='1' && scs_is_mobile())
+        {
+        $gap_string='';
         }
       
         
@@ -329,7 +343,15 @@ function scsss_display($content)
         }
         
         
-        
+      if(get_option('scss_mobile_friendly')=='1' && scs_is_mobile())
+    {
+        $ic_div='margin:0px 0px;width:'.$iwidth[0].'px;height:'.$iwidth[0].'px;';
+    }
+    else
+    {
+        $ic_div='float:left;';
+    }
+      
     if(get_option('scss_clientfb_id')!='')
     {
         
@@ -341,22 +363,22 @@ function scsss_display($content)
         $sharE_url="https://www.facebook.com/dialog/feed?app_id=379676712196705&display=popup&description=&picture=".urlencode($picture_url)."&name=".urlencode($title)."&link=".urlencode(cs_format_share_url($url,'1'))."&redirect_uri=".urlencode("https://www.socleversocial.com/dashboard/fbsharereturn.php");
         
     }
-    $share_arr[2]='<div style="float:left;">'.$count2.'<img '.$src_style2.' onclick="cspopupCenter(\''.$sharE_url.'\',\'Shre on FB\',\'600\',\'400\');share_on_cs(\'1\',\''.sanitize_text_field($user_ID).'\');"  alt="Share on Facebook"  ></div>'.$count2r.''.$gap_string.'';
+    $share_arr[2]='<span style="'.$ic_div.'">'.$count2.'<img '.$src_style2.' onclick="cspopupCenter(\''.$sharE_url.'\',\'Shre on FB\',\'600\',\'400\');share_on_cs(\'1\',\''.sanitize_text_field($user_ID).'\');"  alt="Share on Facebook"  ></span>'.$count2r.''.$gap_string.'';
     
              
-    $share_arr[4]='<div style=\'float:left;\'>'.$count4.'<img  '.$src_style4.' onclick="cspopupCenter(\'https://plus.google.com/share?url='.urlencode(cs_format_share_url($url,'3')).'&title='.urlencode($title).'\',\'Share on Google Plus\',\'600\',\'400\');share_on_cs(\'3\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Google+"></div>'.$count4r.''.$gap_string.'';        
-    $share_arr[7]='<div style=\'float:left;\'>'.$count7.'<img '.$src_style7.' onclick="cspopupCenter(\'https://www.linkedin.com/cws/share?url='.urlencode(cs_format_share_url($url,'2')).'&title='.urlencode($title).'\',\'Share on LinkedIN\',\'600\',\'400\');share_on_cs(\'2\',\''.sanitize_text_field($user_ID).'\');" alt="Share on LinkedIN" ></div>'.$count7r.''.$gap_string.'';        
-    $share_arr[13]='<div style=\'float:left;\'>'.$count13.'<img  '.$src_style13.' onclick="cspopupCenter(\'http://twitter.com/share?url='.urlencode(cs_format_share_url($url,'4')).'&text='.urlencode($title).'\',\'Share on Twitter\',\'600\',\'400\');share_on_cs(\'4\',\''.sanitize_text_field($user_ID).'\');"  alt="Share on Twitter"></div>'.$count13r.''.$gap_string.'';
-    $share_arr[17]='<div style=\'float:left;\'>'.$count17.'<img  '.$src_style17.' onclick="share_on_cs(\'5\',\''.sanitize_text_field($user_ID).'\');"   alt="Pin It"></div>'.$count17r.''.$gap_string.'';
-    $share_arr[18]='<div style=\'float:left;\'>'.$count18.'<img  '.$src_style18.' onclick="share_on_cs(\'6\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Whatsapp"></div>'.$count18r.''.$gap_string.'';
-    $share_arr[19]='<div style=\'float:left;\'>'.$count19.'<img  '.$src_style19.' onclick="cspopupCenter(\'http://www.stumbleupon.com/submit?url='.urlencode(cs_format_share_url($url,'7')).'&title='.urlencode($title).'\',\'Share on StumbleUpon\',\'600\',\'400\');share_on_cs(\'7\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on StumbleUpon"></div>'.$count19r.''.$gap_string.'';
-    $share_arr[20]='<div style=\'float:left;\'>'.$count20.'<img  '.$src_style20.' onclick="cspopupCenter(\'http://www.reddit.com/submit?url='.urlencode(cs_format_share_url($url,'8')).'&title='.urlencode($title).'\',\'Share on Reddit\',\'600\',\'400\');share_on_cs(\'8\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Reddit"></div>'.$count20r.''.$gap_string.'';
-    $share_arr[21]='<div style=\'float:left;\'>'.$count21.'<img  '.$src_style21.' onclick="cspopupCenter(\'http://www.tumblr.com/share/link?url='.urlencode(cs_format_share_url($url,'9')).'&name='.urlencode($title).'&description='.urlencode($csDescription).'\',\'Share on Tumblr\',\'600\',\'400\');share_on_cs(\'9\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Reddit"></div>'.$count21r.''.$gap_string.'';
+    $share_arr[4]='<span style=\''.$ic_div.'\'>'.$count4.'<img  '.$src_style4.' onclick="cspopupCenter(\'https://plus.google.com/share?url='.urlencode(cs_format_share_url($url,'3')).'&title='.urlencode($title).'\',\'Share on Google Plus\',\'600\',\'400\');share_on_cs(\'3\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Google+"></span>'.$count4r.''.$gap_string.'';        
+    $share_arr[7]='<span style=\''.$ic_div.'\'>'.$count7.'<img '.$src_style7.' onclick="cspopupCenter(\'https://www.linkedin.com/cws/share?url='.urlencode(cs_format_share_url($url,'2')).'&title='.urlencode($title).'\',\'Share on LinkedIN\',\'600\',\'400\');share_on_cs(\'2\',\''.sanitize_text_field($user_ID).'\');" alt="Share on LinkedIN" ></span>'.$count7r.''.$gap_string.'';        
+    $share_arr[13]='<span style=\''.$ic_div.'\'>'.$count13.'<img  '.$src_style13.' onclick="cspopupCenter(\'http://twitter.com/share?url='.urlencode(cs_format_share_url($url,'4')).'&text='.urlencode($title).'\',\'Share on Twitter\',\'600\',\'400\');share_on_cs(\'4\',\''.sanitize_text_field($user_ID).'\');"  alt="Share on Twitter"></span>'.$count13r.''.$gap_string.'';
+    $share_arr[17]='<span style=\''.$ic_div.'\'>'.$count17.'<img  '.$src_style17.' onclick="share_on_cs(\'5\',\''.sanitize_text_field($user_ID).'\');"   alt="Pin It"></span>'.$count17r.''.$gap_string.'';
+    $share_arr[18]='<span style=\''.$ic_div.'\'>'.$count18.'<img  '.$src_style18.' onclick="share_on_cs(\'6\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Whatsapp"></span>'.$count18r.''.$gap_string.'';
+    $share_arr[19]='<span style=\''.$ic_div.'\'>'.$count19.'<img  '.$src_style19.' onclick="cspopupCenter(\'http://www.stumbleupon.com/submit?url='.urlencode(cs_format_share_url($url,'7')).'&title='.urlencode($title).'\',\'Share on StumbleUpon\',\'600\',\'400\');share_on_cs(\'7\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on StumbleUpon"></span>'.$count19r.''.$gap_string.'';
+    $share_arr[20]='<span style=\''.$ic_div.'\'>'.$count20.'<img  '.$src_style20.' onclick="cspopupCenter(\'http://www.reddit.com/submit?url='.urlencode(cs_format_share_url($url,'8')).'&title='.urlencode($title).'\',\'Share on Reddit\',\'600\',\'400\');share_on_cs(\'8\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Reddit"></span>'.$count20r.''.$gap_string.'';
+    $share_arr[21]='<span style=\''.$ic_div.'\'>'.$count21.'<img  '.$src_style21.' onclick="cspopupCenter(\'http://www.tumblr.com/share/link?url='.urlencode(cs_format_share_url($url,'9')).'&name='.urlencode($title).'&description='.urlencode($csDescription).'\',\'Share on Tumblr\',\'600\',\'400\');share_on_cs(\'9\',\''.sanitize_text_field($user_ID).'\');"   alt="Share on Tumblr"></span>'.$count21r.''.$gap_string.'';
     
     
     $start_div='<div id="scssdiv" style="clear:both;wdth:100%;height:100%;display:inline-block;z-index:999;">';
     $end_div='</div>';
-if($display_style=='1' || $display_style=='2' )
+if(($display_style=='1' || $display_style=='2') && $is_shorcode=='0' )
 {
     
     $left_right=($display_style=='2')?'right:0;':'left:0;';
@@ -365,6 +387,20 @@ if($display_style=='1' || $display_style=='2' )
     $start_div='<div id="scssdiv" style="width:'.intval(($iwidth[0]*$multiplier_div)+$add_extra).'px;position:fixed;top:30%;'.$left_right.'display:inline-block;height:100%;z-index:999;">';
     $end_div='</div>';
 }
+
+if(get_option('scss_mobile_friendly')=='1' && scs_is_mobile())
+{
+    $start_div='<div id="scssdiv" style="width: 90%;position:fixed;bottom:0;height: 40px; background-color:transparent;
+    
+  
+     /* align horizontal */
+    z-index:999;
+    text-align:center;
+    margin:0 auto;
+ /* align vertical */">';
+}
+
+
 
     $js_code .='<script>
          function cspopupCenter(url, title, w, h) {
@@ -383,7 +419,21 @@ if($display_style=='1' || $display_style=='2' )
                $js_code .=$share_arr[$val];
         }
         $js_code .=$end_div;
-$show_content=0;
+        
+        return $js_code;
+                
+ }
+
+}
+function scsss_display($content)
+{
+    
+      
+    $sscc_share_content_position=get_option('scss_display_position');
+    $myjs_code=get_scscode('0');
+    
+	
+    $show_content=0;
 	if($show_content=='0' && (!is_home()  && is_page() && get_option('scss_show_page') == '1') )
     {
         $show_content=1;
@@ -407,9 +457,8 @@ $show_content=0;
     
     
 	 //var_dump((is_category() && get_option('scss_show_category') == '1')."==".(is_archive() && get_option('scss_show_category') == '1')."==".( is_home() && get_option('scss_show_homepage') == '1'));
-     
-
-     if ($show_content=='1')
+    
+     if ($show_content=='1' && !scs_is_mobile() || get_option('scss_mobile_friendly')=='0')
       {
         
         
@@ -420,20 +469,20 @@ $show_content=0;
         
         if($sscc_share_content_position=='top')
 					{
-						$content_new .=$js_code;
+						$content_new .=$myjs_code;
 						$content_new .=$content;
 					}
 				elseif($sscc_share_content_position=='bottom')
 					{	
 						$content_new .=$content;
-						$content_new .=$js_code;
+						$content_new .=$myjs_code;
 						
 					}
 			         elseif($sscc_share_content_position=='both')
 					{	
-					    $content_new .=$js_code;
+					    $content_new .=$myjs_code;
 						$content_new .=$content;
-						$content_new .=$js_code;
+						$content_new .=$myjs_code;
 						
 					}
                     return $content_new;
@@ -448,8 +497,10 @@ $show_content=0;
      }
      	
 		
-	}
+	
 
+
+add_shortcode('Soclever_Sharebar', 'get_scscode');
 add_filter('the_content', 'scsss_display');
 
 if(get_option('scss_show_excerpts')=='1')
